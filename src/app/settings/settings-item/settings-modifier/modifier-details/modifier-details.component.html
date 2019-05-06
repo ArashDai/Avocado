@@ -1,0 +1,29 @@
+<br>
+<a mat-raised-button color="primary" [routerLink]="['/settings/item/modifiers']"><mat-icon>arrow_back</mat-icon>modifiers</a>
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title><h2>{{modifier.name}}</h2></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <dl>
+      <dt>Name:</dt>
+      <dd>{{ modifier.name }}</dd>
+      <br>
+      <dt>Description:</dt>
+      <dd>{{ modifier.description }}</dd>
+      <dt>Fee:</dt>
+      <dd>{{ modifier.fee }}</dd>
+      <dt>Additions:</dt>
+      <dd> {{ modifier.additions ? modifier.additions.join(', ') : null }} </dd>
+      <br>
+      <dt>Categories:</dt>
+      <dd> {{ modifier.categories ? modifier.categories.join(', ') : null }} </dd>
+      <dt>Author</dt>
+      <dd>{{ modifier.author }}</dd>
+    </dl>
+  </mat-card-content>
+  <mat-card-actions>
+    <a mat-raised-button color="primary" [routerLink]="['/settings/item/modifiers/edit/', modifier._id]"><mat-icon>edit</mat-icon></a>
+    <a mat-raised-button color="warn" (click)="deleteModifier(modifier._id)"><mat-icon>delete</mat-icon></a>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,30 @@
+<br>
+<a mat-raised-button color="primary" [routerLink]="['/menu']"><mat-icon>arrow_back</mat-icon></a>
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title><h2>{{item.name}}</h2></mat-card-title>
+    <mat-card-subtitle>{{item.description}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <dl>
+      <dt>Name:</dt>
+      <dd>{{item.name}}</dd>
+      <dt>Description:</dt>
+      <dd>{{item.description}}</dd>
+      <dt>Price:</dt>
+      <dd>{{item.price}}</dd>
+      <dt>Taxes</dt>
+      <dd>{{item.taxes ? item.taxes.join(', ') : null}}</dd>
+      <dt>Categories</dt>
+      <dd>{{item.categories ? item.categories.join(', ') : null}}</dd>
+      <dt>Modifiers</dt>
+      <dd>{{item.modifiers ? item.modifiers.join(', ') : null}}</dd>
+      <dt>Components</dt>
+      <dd>{{item.components ? item.components.join(', ') : null}}</dd>    
+    </dl>
+  </mat-card-content>
+  <mat-card-actions>
+    <a mat-raised-button color="primary" [routerLink]="['/menu/edit', item._id]"><mat-icon>edit</mat-icon></a>
+    <a mat-raised-button color="warn" (click)="deleteItem(item._id)"><mat-icon>delete</mat-icon></a>
+  </mat-card-actions>
+</mat-card>

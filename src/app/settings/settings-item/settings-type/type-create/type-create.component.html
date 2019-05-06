@@ -1,0 +1,30 @@
+<br>
+<a mat-raised-button color="primary" [routerLink]="['/settings/item/types']"><mat-icon>arrow_back</mat-icon></a>
+<h1>{{this.pageType}} Type</h1>
+
+<form class="card" [formGroup]="typeCreateForm" (ngSubmit)="onFormSubmit(typeCreateForm.value)">
+
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Name" formControlName="name" [errorStateMatcher]="matcher">
+    <mat-error>
+      <span *ngIf="!typeCreateForm.get('name').valid && typeCreateForm.get('name').touched">Please enter a Name</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <textarea matInput placeholder="Description" formControlName="description" [errorStateMatcher]="matcher"></textarea>
+    <mat-error>
+      <span *ngIf="!typeCreateForm.get('description').valid && typeCreateForm.get('description').touched">Please enter type type</span>
+    </mat-error>
+  </mat-form-field>
+
+  <div class="button-row">
+    <button type="submit" [disabled]="!typeCreateForm.valid" mat-raised-button color="primary">
+      <mat-icon>save</mat-icon>
+    </button>
+    <button  [routerLink]="['/']" [disabled]="!typeCreateForm.valid" mat-raised-button color="primary">
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </div>
+
+</form>

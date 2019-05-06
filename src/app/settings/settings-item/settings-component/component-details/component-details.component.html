@@ -1,0 +1,21 @@
+<br>
+<a mat-raised-button color="primary" [routerLink]="['/settings/item/components']"><mat-icon>arrow_back</mat-icon>Components</a>
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title><h2>{{component.type}}</h2></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <dl>
+      <dt>Type:</dt>
+      <dd>{{component.type}}</dd>
+      <dt>Categories:</dt>
+      <dd>{{component.categories}}</dd>
+      <dt>Options:</dt>
+      <dd>{{component.options}}</dd>
+    </dl>
+  </mat-card-content>
+  <mat-card-actions>
+    <a mat-raised-button color="primary" [routerLink]="['/settings/item/components/edit/', component._id]"><mat-icon>edit</mat-icon></a>
+    <a mat-raised-button color="warn" (click)="deleteComponent(component._id)"><mat-icon>delete</mat-icon></a>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,21 @@
+<br>
+<a mat-raised-button color="primary" [routerLink]="['/settings/item/taxes']"><mat-icon>arrow_back</mat-icon>Taxes</a>
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title><h2>{{tax.name}}</h2></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <dl>
+      <dt>Name:</dt>
+      <dd>{{tax.name}}</dd>
+      <dt>Rate:</dt>
+      <dd>{{tax.rate}}</dd>
+      <dt>Description:</dt>
+      <dd>{{tax.description}}</dd>
+    </dl>
+  </mat-card-content>
+  <mat-card-actions>
+    <a mat-raised-button color="primary" [routerLink]="['/settings/item/taxes/edit/', tax._id]"><mat-icon>edit</mat-icon></a>
+    <a mat-raised-button color="warn" (click)="deleteTax(tax._id)"><mat-icon>delete</mat-icon></a>
+  </mat-card-actions>
+</mat-card>

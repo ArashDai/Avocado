@@ -1,0 +1,19 @@
+<br>
+<a mat-raised-button color="primary" [routerLink]="['/settings/item/categories']"><mat-icon>arrow_back</mat-icon>Categories</a>
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title><h2>{{category.name}}</h2></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <dl>
+      <dt>Name:</dt>
+      <dd>{{category.name}}</dd>
+      <dt>Description:</dt>
+      <dd>{{category.description}}</dd>
+    </dl>
+  </mat-card-content>
+  <mat-card-actions>
+    <a mat-raised-button color="primary" [routerLink]="['/settings/item/categories/edit/', category._id]"><mat-icon>edit</mat-icon></a>
+    <a mat-raised-button color="warn" (click)="deleteCategory(category._id)"><mat-icon>delete</mat-icon></a>
+  </mat-card-actions>
+</mat-card>

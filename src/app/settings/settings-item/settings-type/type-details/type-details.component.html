@@ -1,0 +1,19 @@
+<br>
+<a mat-raised-button color="primary" [routerLink]="['/settings/item/types']"><mat-icon>arrow_back</mat-icon>Types</a>
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title><h2>{{type.name}}</h2></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <dl>
+      <dt>Name:</dt>
+      <dd>{{type.name}}</dd>
+      <dt>Description:</dt>
+      <dd>{{type.description}}</dd>
+    </dl>
+  </mat-card-content>
+  <mat-card-actions>
+    <a mat-raised-button color="primary" [routerLink]="['/settings/item/types/edit/', type._id]"><mat-icon>edit</mat-icon></a>
+    <a mat-raised-button color="warn" (click)="deleteType(type._id)"><mat-icon>delete</mat-icon></a>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,91 @@
+<br>
+<a mat-raised-button color="primary" [routerLink]="['/settings/item/categories']"><mat-icon>arrow_back</mat-icon></a>
+<h1>{{this.pageType}} Component</h1>
+
+<form class="card" [formGroup]="componentCreateForm" (ngSubmit)="onFormSubmit(componentCreateForm.value)">
+
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Name" formControlName="name" [errorStateMatcher]="matcher">
+    <mat-error>
+      <span *ngIf="!componentCreateForm.get('name').valid && componentCreateForm.get('name').touched">Please enter a Name</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Type" formControlName="type" [errorStateMatcher]="matcher">
+    <mat-error>
+      <span *ngIf="!componentCreateForm.get('type').valid && componentCreateForm.get('type').touched">Please enter a Type</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <textarea matInput placeholder="Description" formControlName="description" [errorStateMatcher]="matcher"></textarea>
+    <mat-error>
+      <span *ngIf="!componentCreateForm.get('type').valid && componentCreateForm.get('type').touched">Please enter a Description</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-chip-list #optionChipList>
+      <mat-chip
+        *ngFor="let option of selectedOptions"
+        [selectable]="selectable"
+        [removable]="removable"
+        (removed)="remove(option, 'selectedOptions')"> 
+        {{option}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input
+        placeholder="Options"
+        #optionInput
+        [formControl]="optionCtrl"
+        [matAutocomplete]="autoOption" 
+        [matChipInputFor]="optionChipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlur"
+        (matChipInputTokenEnd)="add($event, 'optionCtrl', 'option')">
+    </mat-chip-list>
+    <mat-autocomplete #autoOption="matAutocomplete" (optionSelected)="selected($event, 'selectedOptions', 'optionInput', 'optionCtrl')">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        {{option}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-chip-list #categoryChipList>
+      <mat-chip
+        *ngFor="let category of selectedCategories"
+        [selectable]="selectable"
+        [removable]="removable"
+        (removed)="remove(category, 'selectedCategories')"> 
+        {{category}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input
+        placeholder="Category"
+        #categoryInput
+        [formControl]="categoryCtrl"
+        [matAutocomplete]="autoCategory" 
+        [matChipInputFor]="categoryChipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlur"
+        (matChipInputTokenEnd)="add($event, 'categoryCtrl', 'category')">
+    </mat-chip-list>
+    <mat-autocomplete #autoCategory="matAutocomplete" (optionSelected)="selected($event, 'selectedCategories', 'categoryInput', 'categoryCtrl')">
+      <mat-option *ngFor="let category of filteredCategories | async" [value]="category">
+        {{category}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <div class="button-row">
+    <button type="submit" [disabled]="!componentCreateForm.valid" mat-raised-button color="primary">
+      <mat-icon>save</mat-icon>
+    </button>
+    <button  [routerLink]="['/']" [disabled]="!componentCreateForm.valid" mat-raised-button color="primary">
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </div>
+
+</form>

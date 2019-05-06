@@ -1,0 +1,95 @@
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {  }
+
+/*  Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {  }
+
+/* // Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {  }
+
+ /* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {  }
+
+body{
+  background-color:lightblue;
+}
+
+#itemSettingsHeader{
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  min-width: 300px;
+  overflow: auto;
+}
+
+.button-row {
+  margin: 10px 0;
+}
+
+.card {
+  background-color: white;
+}
+
+.form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.full-width:nth-last-child() {
+  margin-bottom: 10px;
+}
+
+.spacer {
+    /* This fills the remaining space, by using flexbox. 
+       Every toolbar row uses a flexbox row layout. */
+    flex: 1 1 auto;
+}
+  
+.pageTitle{
+  font-family: sans-serif;
+  text-align: center;
+}
+
+#categoryBox{
+  display: flex;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  background-color:gray;
+}
+
+.categoryTile{
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  background-color: lightcoral;
+  width:6em;
+  height:6em;
+}
+
+#categoryItemList{
+  background-color:gray;
+}
+
+.listItem{
+  min-height: 3em;
+  background-color: white;
+  border: 2px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.listItem:hover{
+  background-color: lightskyblue;
+}

@@ -1,0 +1,20 @@
+<!-- at the top a way to select category quickly with minimal clicks
+  
+underneath a mat table with items that change based on category 
+just a div with a bunch of sub divs acting as tiles all with the same height width % of the parent div
+
+-->
+<div id="categoryBox">
+  <div (click)="categorySelect(category)" class="categoryTile" *ngFor="let category of categories">
+    {{category.name}}
+  </div>
+</div>
+
+<div id="categoryItemList">
+  <div class="listItem" *ngFor="let item of selectedItems" (click)="addItem(item)">
+    <h3>{{item.name}}</h3>
+    <p>{{item.description}}</p>
+    <p>{{item.price}}</p>
+  </div>
+</div>
+
