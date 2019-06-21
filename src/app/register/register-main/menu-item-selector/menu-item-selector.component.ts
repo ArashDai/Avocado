@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ApiService } from '../../../api.service';
 import { DialogComponent } from '../../../shared/dialog/dialog.component';
-
+import { DialogQuestionService } from '../../../shared/dialog/dialog-question.service';
 
 
 @Component({
@@ -16,7 +16,12 @@ export class MenuItemSelectorComponent implements OnInit {
   categories:any;
   items:any;
   selectedItems:any;
-  constructor(private api: ApiService, public dialog: MatDialog) { }
+
+  constructor(  
+    public service: DialogQuestionService,
+    private api: ApiService,
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit() {
     //change this later
@@ -51,18 +56,46 @@ export class MenuItemSelectorComponent implements OnInit {
   }
 
   addItem(item){
-    // add and item to the sibling component Ticket
-    // first open a modal and create a specific instance of the item
-    // in the modal as questions for item specifications
-    // e.g. type of bread, sauce, meat, extra bacon
-    // calculate final price and add the item instance to the ticket
-    this.openDialog(item)
+    //const options = []; //maybe change this to an array then fetch stuff in the dialog itself since menu-item-selector wont have these lists
+    let dialogQuestions;
+      // add an item to the sibling component Ticket
+      // first open a modal and create a specific instance of the item
+      // in the modal as questions for item specifications
+      // e.g. type of bread, sauce, meat, extra bacon
+      // calculate final price and add the item instance to the ticket
+
+      // input will be either simple or complex
+      // a simple item like a danish only needs quantity
+      // a complex item like a sandwich needs the modifiers options removas and additions of the item being added not all of them
+      if(  //clean this up
+          (item.modifiers && item.modifiers.length > 0) ||
+          (item.options && item.options.length > 0) ||
+          (item.additions && item.additions.length > 0) ||
+          (item.removals && item.removals.length > 0) 
+      ) {
+        console.log('its complex');
+        item.dialogFormType = 'complex';
+        dialogQuestions = this.service.getQuestions('complex', item); 
+      } else {
+        console.log('its simple');
+        item.dialogFormType = 'simple';
+        dialogQuestions = this.service.getQuestions('simple', item);
+      }
+      console.log('item before dialog',item)
+    this.openDialog(item, dialogQuestions)
   }
 
-  openDialog(item): void {
+  openDialog(item, questions): void {
+    //i need to grab the questions in addItem above and pass them into the dialog
+    console.log('opening dialog', item)
     const dialogRef = this.dialog.open(DialogComponent, {
-      width: '20%',
-      data: {Quantity:item.quantity, ItemName: item.name, ItemDetails: item.details}
+      width: '45%',
+      data: {
+        item,
+        dialogType:'menu-selection',
+        dialog:this,
+        questions
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {

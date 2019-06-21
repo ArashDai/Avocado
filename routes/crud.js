@@ -49,6 +49,17 @@ router.get('/one*/:id', function(req, res, next) {
   });
 });
 
+// get one by name
+router.get('/name*/:name', function(req ,res, next){
+  let db = String(arguments['0'].url.match(/^\/name\w+/)).slice(5);
+  console.log('getting by name', req.params.name); //req.params.name
+  let DB = dbSelector(db);
+  DB.findOne({name:req.params.name}, function (err, post){
+    if (err) return next(err);
+    res.json(post);
+  });
+});
+
 // save something
 router.post('/p*', function(req, res, next) {
   let db = String(arguments['0'].url.match(/^\/p\w+/)).slice(2);

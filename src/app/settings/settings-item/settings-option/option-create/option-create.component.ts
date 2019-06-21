@@ -66,9 +66,9 @@ export class OptionCreateComponent implements OnInit {
       this.pageType = 'Update';
       this.api.get('Option',id).subscribe( 
         option => {
-          this.optionCreateForm.patchValue(option);
-
           this.selectedCategories = option.categories;
+
+          this.optionCreateForm.patchValue(option);
         });
     }
   }
@@ -121,9 +121,25 @@ export class OptionCreateComponent implements OnInit {
     return this[type].filter(item => item.toLowerCase().indexOf(filterValue) === 0);
   }
 
+  private _replaceNulls(item) {
+    // there should be a better way to do this
+    for (let property in item){
+      switch( property ) {
+        case 'categories': 
+        case 'components': 
+        case 'modifiers': 
+        case 'options': 
+        case 'taxes': 
+        case 'types': 
+          item[property] = [];
+      }
+    }
+  }
+
   onFormSubmit(form: NgForm) {
     if (this.pageType === 'Create') {
       console.log('Creating', form)
+      this._replaceNulls(form);
       this.api.post('Option', form)
         .subscribe(res => {
           let id = res['_id'];

@@ -33,25 +33,28 @@ export class ItemCreateComponent implements OnInit {
   categoryCtrl  = new FormControl();
   taxCtrl       = new FormControl();
   componentCtrl = new FormControl();
+  typeCtrl      = new FormControl();
   
   filteredModifiers:  Observable<string[]>;
   filteredOptions:    Observable<string[]>;
   filteredCategories: Observable<string[]>;
   filteredTaxes:      Observable<string[]>;
   filteredComponents: Observable<string[]>;
+  filteredTypes:      Observable<string[]>;
 
   categoryList:  any[] = [];
   optionList:    any[] = [];       //string[] = ['White Bread', 'Wheat Bread', 'Extra Mayo', 'Mustard', 'Grilled Onions', 'Toasted'];
   modifierList:  any[] = [];       //string[] = ['Add Bacon', 'Add Avocado', 'Double Meat', 'Double Cheese'];
   taxList:       any[] = [];       //string[] = ['Defaut Tax', 'Dine-in Tax', 'Hot Food Tax'];
   componentList: any[] = [];       //string[] = ['White Bread', 'Wheat Bread', 'Mayo', 'Turkey', 'Ham', 'Lettuce', 'Tomato', 'Onions'];
-  typeList:      any[] = [];
+  typeList:      any[] = [];       //string[] = ['sandwich', 'soup', 'salad', danish];
 
   selectedModifiers:  any[] = [];
   selectedOptions:    any[] = [];
   selectedCategories: any[] = [];
   selectedTaxes:      any[] = [];
   selectedComponents: any[] = [];
+  selectedTypes:      any[] = [];
 
   pageType = 'Create';
   id = this.route.snapshot.params['id'];
@@ -62,12 +65,14 @@ export class ItemCreateComponent implements OnInit {
   @ViewChild('categoryInput')  categoryInput:  ElementRef<HTMLInputElement>;
   @ViewChild('taxInput')       taxInput:       ElementRef<HTMLInputElement>;
   @ViewChild('componentInput') componentInput: ElementRef<HTMLInputElement>;
+  @ViewChild('typeInput')      typeInput:      ElementRef<HTMLInputElement>;
 
   @ViewChild('autoModifier')  autoModifier:  MatAutocomplete;
   @ViewChild('autoOption')    autoOption:    MatAutocomplete;
   @ViewChild('autoCategory')  autoCategory:  MatAutocomplete;
   @ViewChild('autoTax')       autoTax:       MatAutocomplete;
   @ViewChild('autoComponent') autoComponent: MatAutocomplete;
+  @ViewChild('autoType')      autoType:      MatAutocomplete;
 
   constructor(
     public service: DialogQuestionService,
@@ -103,6 +108,11 @@ export class ItemCreateComponent implements OnInit {
       map((component: string | null) => component ? this._filter(component, 'componentList') : this.componentList.slice() )
     );
 
+    this.filteredTypes = this.typeCtrl.valueChanges.pipe(
+      startWith(null),
+      map((type: string | null) => type ? this._filter(type, 'typeList') : this.typeList.slice() )
+    );
+
     this.createForm();
   }
 
@@ -111,9 +121,10 @@ export class ItemCreateComponent implements OnInit {
   }
 
   createForm(){
-    this.itemCreateForm = this.fb.group({
+    let def = {
       name: '',
       categories: [],
+      types:[],
       price: 0, 
       options: [],
       components: [], 
@@ -122,7 +133,11 @@ export class ItemCreateComponent implements OnInit {
       taxes: [],
       description: '', 
       author: '', 
-    });
+    }
+
+    this.itemCreateForm = this.fb.group(def);
+    this.itemCreateForm.setValue(def);
+    //this forces the empty arrays to not become nulls
   }
 
   setupForm(id) {
@@ -144,16 +159,15 @@ export class ItemCreateComponent implements OnInit {
 
     if(this.route.snapshot.data.update){
       this.api.get('Item',id).subscribe( item => {
-        this.itemCreateForm.patchValue(item)
 
         this.selectedModifiers = item.modifiers;
         this.selectedOptions = item.options;
         this.selectedCategories = item.categories;
         this.selectedTaxes = item.taxes;
         this.selectedComponents = item.components;
+        this.selectedTypes = item.types;
 
-        console.log(item, this.itemCreateForm)
-      
+        this.itemCreateForm.patchValue(item);
       });
       
       this.pageType = 'Update';
@@ -161,6 +175,7 @@ export class ItemCreateComponent implements OnInit {
   }
 
   add(event: MatChipInputEvent, ctrl, type): void { 
+    console.log('inside add',ctrl, type,'am i blind     input:', event.input,'value:', event.value)
     let autoComplete
     switch(type){
       case 'modifier':
@@ -177,6 +192,9 @@ export class ItemCreateComponent implements OnInit {
         break;
       case 'component':
         autoComplete = this.autoComponent;
+        break;
+      case 'type':
+        autoComplete = this.autoType;
         break;
     }
 
@@ -198,11 +216,14 @@ export class ItemCreateComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent, selectedItems, inputType, ctrl): void {
+
     if ( this[selectedItems].indexOf(event.option.viewValue) < 0 ){
       this[selectedItems].push(event.option.viewValue);
     }
     this[inputType].nativeElement.value = '';
     this[ctrl].setValue(null);
+    console.log('something has been selected', event.option.value, event.option.value, this[selectedItems], this.itemCreateForm, this[ctrl], ctrl)
+    //the correct value is being selected into the appropriate selctedItems array
   }
 
   private _filter(value: string, type): string[] {
@@ -210,9 +231,30 @@ export class ItemCreateComponent implements OnInit {
     return this[type].filter(item => item.toLowerCase().indexOf(filterValue) === 0);
   }
 
+  private _replaceNulls(item) {
+    // there should be a better way to do this
+
+    // I dont think i need this anymore becuase of the def in createform
+    for (let property in item){
+      switch( property ) {
+        case 'categories': 
+        case 'components': 
+        case 'modifiers': 
+        case 'options': 
+        case 'taxes': 
+        case 'types': 
+          if(item[property] === null) item[property] = [];
+      }
+    }
+  }
+
   onFormSubmit(form: NgForm) {
+    //for new items this form is null for modifiers etc
+    console.log('anyways',form, this.pageType)
+    
     if (this.pageType === 'Create') {
       console.log('Creating', form)
+      // this._replaceNulls(form);
       this.api.post('Item', form)
         .subscribe(res => {
           console.log('resres',res)

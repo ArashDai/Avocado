@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 
 var ItemSchema = new mongoose.Schema({
     infoType: String,
-    name: { type: 'string', unique: true },
+    name: { type: 'string', unique: true }, //need to make this required
+    types: Array, //sandwich,soup,salad, danish
     categories: Array,
     price: Number,
     options: Array, //type of bread, type of cheese
@@ -14,5 +15,5 @@ var ItemSchema = new mongoose.Schema({
     updated_date: { type: Date, default: Date.now },
 });
 
-
+//{ type: Array, default: ['none'] } this did not work maybe i did it wrong
 module.exports = mongoose.model('Item', ItemSchema);

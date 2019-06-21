@@ -1,3 +1,29 @@
-<p>
-  register-ticket works!
-</p>
+<div>
+
+  <h3> ticket number {{this.activeTicket+1}}</h3>
+
+  <!-- <ul id="ticket-items-list">
+
+    <li id="ticket-item">
+      <h4>Turkey Sandwich</h4>
+      <p>Price: $5.00</p>
+      <p>Quantity: 1</p>  
+    </li>
+  </ul> -->
+
+  <div *ngFor="let item of tickets[this.activeTicket]">
+      <!-- <app-register-ticket-item [item]="item"></app-register-ticket-item> -->
+      <div id="ticketItem">
+        {{item.name}} Amount:{{item.amount}}
+        {{item | calculatePrice}} 
+        <!-- use the calculate price pipe here -->
+      </div>
+  </div>
+
+  <div *ngFor="let ticket of tickets; let index = index">
+    <div (click)="setActiveTicket(index)">{{index+1}}</div>
+  </div>
+
+  <button (click)="addTicket()">Create New Ticket</button>
+
+</div>

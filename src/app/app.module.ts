@@ -35,7 +35,7 @@ import {
     AppComponent,
     DialogComponent,
     DynamicFormQuestionComponent,
-    DynamicFormComponent
+    DynamicFormComponent,
   ],
   imports: [
     BrowserModule,

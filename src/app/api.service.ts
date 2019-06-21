@@ -40,13 +40,21 @@ export class ApiService {
   getAll(db: string): Observable<any> {
     console.log('inside getAll',db)
     const url = `${apiUrl}/all${db}`;
-      return this.http.get(url, httpOptions).pipe(
+    return this.http.get(url, httpOptions).pipe(
       map(this.extractData),
       catchError(this.handleError));
   }
   
   get(db: string, id: string): Observable<any> {
     const url = `${apiUrl}/one${db}/${id}`;
+    return this.http.get(url, httpOptions).pipe(
+      map(this.extractData),
+      catchError(this.handleError));
+  }
+
+  getByName(db:string, name:string): Observable<any> {
+    console.log('inside getByName', name)
+    const url = `${apiUrl}/name${db}/${name}`;
     return this.http.get(url, httpOptions).pipe(
       map(this.extractData),
       catchError(this.handleError));
@@ -70,7 +78,7 @@ export class ApiService {
       );
   }
   
-  delete(db:string, id: string): Observable<{}> {
+  delete(db:string, id: string): Observable<any> {
     const url = `${apiUrl}/d${db}/${id}`;
     return this.http.delete(url, httpOptions)
       .pipe(

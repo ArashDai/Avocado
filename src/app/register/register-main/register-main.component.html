@@ -1,7 +1,7 @@
-<p>
-  register-main works!
-</p>
+<h1>
+  Register
+</h1>
 
+<!-- <app-register-ticket [item]="ticketItem"></app-register-ticket> -->
 <app-register-ticket></app-register-ticket>
-
-<app-menu-item-selector></app-menu-item-selector>
+<app-menu-item-selector (propogateItemSelected)="updateTicket($event)"></app-menu-item-selector>

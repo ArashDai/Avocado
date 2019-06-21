@@ -5,12 +5,26 @@ import { RegisterRoutingModule } from './register-routing.module';
 import { RegisterMainComponent } from './register-main/register-main.component';
 import { MenuItemSelectorComponent } from './register-main/menu-item-selector/menu-item-selector.component';
 import { RegisterTicketComponent } from './register-main/register-ticket/register-ticket.component';
+import { DialogQuestionService } from '../shared/dialog/dialog-question.service';
+import { RegisterTicketItemComponent } from './register-main/register-ticket/register-ticket-item/register-ticket-item.component';
+import { CalculatePricePipe } from './calculate-price.pipe';
+
+
 
 @NgModule({
   imports: [
     CommonModule,
     RegisterRoutingModule
   ],
-  declarations: [RegisterMainComponent, MenuItemSelectorComponent, RegisterTicketComponent],
+  declarations: [
+    RegisterMainComponent,
+    MenuItemSelectorComponent,
+    RegisterTicketComponent,
+    RegisterTicketItemComponent,
+    CalculatePricePipe
+  ],
+  providers: [
+    DialogQuestionService
+  ]
 })
 export class RegisterModule { }
