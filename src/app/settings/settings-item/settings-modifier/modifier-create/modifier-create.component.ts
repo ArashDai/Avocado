@@ -80,14 +80,17 @@ export class ModifierCreateComponent implements OnInit {
   }
 
   createForm(){
-    this.modifierCreateForm = this.fb.group({
+    let def = {
       name: '',
       description: '',
       additions:[],
       removals:[],
       categories:[],
       fee: 0
-    });
+    };
+
+    this.modifierCreateForm = this.fb.group(def);
+    this.modifierCreateForm.setValue(def);
   }
 
   add(event: MatChipInputEvent, ctrl, type): void { 
@@ -99,7 +102,6 @@ export class ModifierCreateComponent implements OnInit {
     }
 
     if(!autoComplete.isOpen){
-
       if (event.input) {
         event.input.value = '';
       }
@@ -115,10 +117,12 @@ export class ModifierCreateComponent implements OnInit {
     }
   }
 
-  selected(event: MatAutocompleteSelectedEvent, selectedItems, inputType, ctrl): void {
+  selected(event: MatAutocompleteSelectedEvent, selectedItems, inputType, ctrl, field): void {
     if ( this[selectedItems].indexOf(event.option.viewValue) < 0 ){
       this[selectedItems].push(event.option.viewValue);
     }
+
+    this.modifierCreateForm.setValue(Object.assign(this.modifierCreateForm.value, {[field]: this[selectedItems]}));
     this[inputType].nativeElement.value = '';
     this[ctrl].setValue(null);
   }
@@ -131,6 +135,7 @@ export class ModifierCreateComponent implements OnInit {
   onFormSubmit(form: NgForm) {
     if (this.pageType === 'Create') {
       console.log('Creating', form)
+      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
       this.api.post('Modifier', form)
         .subscribe(res => {
           let id = res['_id'];
@@ -140,6 +145,7 @@ export class ModifierCreateComponent implements OnInit {
         });
     } else if (this.pageType === 'Update') {
       console.log('Updating', form)
+      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
       this.api.update('Modifier', this.id, form)
         .subscribe(res => {
           let id = res['_id'];

@@ -2,6 +2,8 @@
   Register
 </h1>
 
-<!-- <app-register-ticket [item]="ticketItem"></app-register-ticket> -->
-<app-register-ticket></app-register-ticket>
-<app-menu-item-selector (propogateItemSelected)="updateTicket($event)"></app-menu-item-selector>
+<div id='register'>
+  <app-register-ticket id="ticket"></app-register-ticket>
+
+  <app-menu-item-selector id="selector" (propogateItemSelected)="updateTicket($event)"></app-menu-item-selector>
+</div>

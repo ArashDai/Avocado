@@ -33,7 +33,7 @@
         [matChipInputAddOnBlur]="addOnBlur"
         (matChipInputTokenEnd)="add($event, 'categoryCtrl', 'category')">
     </mat-chip-list>
-    <mat-autocomplete #autoCategory="matAutocomplete" (optionSelected)="selected($event, 'selectedCategories', 'categoryInput', 'categoryCtrl')">
+    <mat-autocomplete #autoCategory="matAutocomplete" (optionSelected)="selected($event, 'selectedCategories', 'categoryInput', 'categoryCtrl', 'categories')">
       <mat-option *ngFor="let category of filteredCategories | async" [value]="category">
         {{category}}
       </mat-option>
@@ -61,7 +61,7 @@
         [matChipInputAddOnBlur]="addOnBlur"
         (matChipInputTokenEnd)="add($event, 'optionCtrl', 'option')">
     </mat-chip-list>
-    <mat-autocomplete #autoOption="matAutocomplete" (optionSelected)="selected($event, 'selectedOptions', 'optionInput', 'optionCtrl')">
+    <mat-autocomplete #autoOption="matAutocomplete" (optionSelected)="selected($event, 'selectedOptions', 'optionInput', 'optionCtrl', 'options')">
       <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
         {{option}}
       </mat-option>
@@ -89,7 +89,7 @@
         [matChipInputAddOnBlur]="addOnBlur"
         (matChipInputTokenEnd)="add($event, 'modifierCtrl','modifier')">
     </mat-chip-list>
-    <mat-autocomplete #autoModifier="matAutocomplete" (optionSelected)="selected($event, 'selectedModifiers', 'modifierInput', 'modifierCtrl')">
+    <mat-autocomplete #autoModifier="matAutocomplete" (optionSelected)="selected($event, 'selectedModifiers', 'modifierInput', 'modifierCtrl', 'modifiers')">
       <mat-option *ngFor="let modifier of filteredModifiers | async" [value]="modifier">
         {{modifier}}
       </mat-option>
@@ -117,7 +117,7 @@
         [matChipInputAddOnBlur]="addOnBlur"
         (matChipInputTokenEnd)="add($event, 'taxCtrl','tax')">
     </mat-chip-list>
-    <mat-autocomplete #autoTax="matAutocomplete" (optionSelected)="selected($event, 'selectedTaxes', 'taxInput', 'taxCtrl')">
+    <mat-autocomplete #autoTax="matAutocomplete" (optionSelected)="selected($event, 'selectedTaxes', 'taxInput', 'taxCtrl', 'taxes')">
       <mat-option *ngFor="let tax of filteredTaxes | async" [value]="tax">
         {{tax}}
       </mat-option>
@@ -145,7 +145,7 @@
         [matChipInputAddOnBlur]="addOnBlur"
         (matChipInputTokenEnd)="add($event, 'componentCtrl','component')">
     </mat-chip-list>
-    <mat-autocomplete #autoComponent="matAutocomplete" (optionSelected)="selected($event, 'selectedComponents', 'componentInput', 'componentCtrl')">
+    <mat-autocomplete #autoComponent="matAutocomplete" (optionSelected)="selected($event, 'selectedComponents', 'componentInput', 'componentCtrl', 'components')">
       <mat-option *ngFor="let component of filteredComponents | async" [value]="component">
         {{component}}
       </mat-option>
@@ -172,7 +172,7 @@
         [matChipInputAddOnBlur]="addOnBlur"
         (matChipInputTokenEnd)="add($event, 'typeCtrl','type')">
     </mat-chip-list>
-    <mat-autocomplete #autoType="matAutocomplete" (optionSelected)="selected($event, 'selectedTypes', 'typeInput', 'typeCtrl')">
+    <mat-autocomplete #autoType="matAutocomplete" (optionSelected)="selected($event, 'selectedTypes', 'typeInput', 'typeCtrl', 'types')">
       <mat-option *ngFor="let type of filteredTypes | async" [value]="type">
         {{type}}
       </mat-option>

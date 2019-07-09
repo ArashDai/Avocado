@@ -1,0 +1,61 @@
+#register-ticket{
+    display:flex;
+    flex-wrap:wrap;
+    flex-direction: row;
+    border: 3px solid slateblue;
+    height: fit-content;
+}
+
+#ticket-wrapper{
+    align-content: flex-start;
+    border:2px solid lightseagreen;
+    overflow: auto; /*this is new*/
+    height:57vh;
+}
+
+#totals{
+    flex:1 100%;
+    flex-direction: row;
+    align-self: flex-end;
+    border:2px solid brown;
+}
+
+#ticket-select{
+    display: flex;
+    flex:1 100%;
+    align-self: flex-end;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border:2px solid limegreen;
+}
+
+#ticket-select div div{
+    display: flex;
+    background-color:purple;
+    flex-direction: row; 
+    justify-content: space-between;
+}
+
+#ticket-select button{
+    margin-left: auto;
+}
+
+#ticket-control {
+    height:fit-content;
+    background-color:red;
+    display: flex;
+    align-content: flex-end;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    flex-direction: row;
+}
+
+#ticket-control > div {
+    border:1px solid white;
+    flex: 1;
+    background:lightgreen;
+    align-items: center; 
+    width:6em;
+    height:3em;
+}
+  

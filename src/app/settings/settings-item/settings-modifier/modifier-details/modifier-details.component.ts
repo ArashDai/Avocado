@@ -19,18 +19,16 @@ export class ModifierDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.getModifierDetails(this.route.snapshot.params['id']);
-    console.log(this.modifier)
   }
 
   getModifierDetails(id) { //should be moved into a service
     this.api.get('Modifier',id)
       .subscribe(data => {
-        console.log(data);
         this.modifier = data;
       });
   }
 
-  deleteOption(id) { //should be moved into a service
+  deleteModifier(id) { //should be moved into a service
     this.api.delete('Modifier',id)
       .subscribe(res => {
           this.router.navigate(['/settings/item/modifiers']);

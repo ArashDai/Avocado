@@ -7,7 +7,6 @@ import { MenuItemSelectorComponent } from './register-main/menu-item-selector/me
 import { RegisterTicketComponent } from './register-main/register-ticket/register-ticket.component';
 import { DialogQuestionService } from '../shared/dialog/dialog-question.service';
 import { RegisterTicketItemComponent } from './register-main/register-ticket/register-ticket-item/register-ticket-item.component';
-import { CalculatePricePipe } from './calculate-price.pipe';
 
 
 
@@ -20,8 +19,7 @@ import { CalculatePricePipe } from './calculate-price.pipe';
     RegisterMainComponent,
     MenuItemSelectorComponent,
     RegisterTicketComponent,
-    RegisterTicketItemComponent,
-    CalculatePricePipe
+    RegisterTicketItemComponent
   ],
   providers: [
     DialogQuestionService

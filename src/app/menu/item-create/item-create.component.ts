@@ -137,7 +137,6 @@ export class ItemCreateComponent implements OnInit {
 
     this.itemCreateForm = this.fb.group(def);
     this.itemCreateForm.setValue(def);
-    //this forces the empty arrays to not become nulls
   }
 
   setupForm(id) {
@@ -175,7 +174,6 @@ export class ItemCreateComponent implements OnInit {
   }
 
   add(event: MatChipInputEvent, ctrl, type): void { 
-    console.log('inside add',ctrl, type,'am i blind     input:', event.input,'value:', event.value)
     let autoComplete
     switch(type){
       case 'modifier':
@@ -215,15 +213,14 @@ export class ItemCreateComponent implements OnInit {
     }
   }
 
-  selected(event: MatAutocompleteSelectedEvent, selectedItems, inputType, ctrl): void {
-
+  selected(event: MatAutocompleteSelectedEvent, selectedItems, inputType, ctrl, field): void {
     if ( this[selectedItems].indexOf(event.option.viewValue) < 0 ){
       this[selectedItems].push(event.option.viewValue);
     }
+
+    this.itemCreateForm.setValue(Object.assign(this.itemCreateForm.value, {[field]: this[selectedItems]}));
     this[inputType].nativeElement.value = '';
     this[ctrl].setValue(null);
-    console.log('something has been selected', event.option.value, event.option.value, this[selectedItems], this.itemCreateForm, this[ctrl], ctrl)
-    //the correct value is being selected into the appropriate selctedItems array
   }
 
   private _filter(value: string, type): string[] {
@@ -231,30 +228,10 @@ export class ItemCreateComponent implements OnInit {
     return this[type].filter(item => item.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  private _replaceNulls(item) {
-    // there should be a better way to do this
-
-    // I dont think i need this anymore becuase of the def in createform
-    for (let property in item){
-      switch( property ) {
-        case 'categories': 
-        case 'components': 
-        case 'modifiers': 
-        case 'options': 
-        case 'taxes': 
-        case 'types': 
-          if(item[property] === null) item[property] = [];
-      }
-    }
-  }
-
   onFormSubmit(form: NgForm) {
-    //for new items this form is null for modifiers etc
-    console.log('anyways',form, this.pageType)
-    
     if (this.pageType === 'Create') {
-      console.log('Creating', form)
-      // this._replaceNulls(form);
+      console.log('Creating', form.name.trim(),'end')
+      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
       this.api.post('Item', form)
         .subscribe(res => {
           console.log('resres',res)
@@ -265,6 +242,7 @@ export class ItemCreateComponent implements OnInit {
         });
     } else if (this.pageType === 'Update') {
       console.log('Updating', form)
+      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
       this.api.update('Item', this.id, form)
         .subscribe(res => {
           console.log('resres',res)

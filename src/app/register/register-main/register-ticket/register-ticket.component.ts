@@ -12,23 +12,45 @@ export class RegisterTicketComponent implements OnInit {
 
   activeTicket = 0;
   tickets = [];
+  totals = [];
+
+
+
   constructor( 
     private ticketItemService :TicketItemService,
     private api: ApiService
   ) { }
 
   ngOnInit() {
-    console.log('inside register-ticket')
     this.ticketItemService.getTickets().subscribe((tickets) => {
       this.tickets = tickets;
-      console.log('the ticket is currently: ',this.tickets)
+      // this.ticketTotal = tickets[this.activeTicket].reduce((acc, c) => { return acc + c['total']},0)
+      // i need to assign ticketTotal, ticketTaxTotal, ticketSubTotal
+      // the totals need to be added to the ticket
+      let ticketTotal = 0;
+      let ticketTaxTotal = 0;
+      let ticketSubtotal = 0;
+
+      tickets[this.activeTicket].forEach( c => {
+        ticketTotal += c.total;
+        ticketTaxTotal += c.tax;
+        ticketSubtotal += c.subtotal;
+      })
+
+      this.totals[this.activeTicket] = {total: ticketTotal, subtotal: ticketSubtotal, tax: ticketTaxTotal};
+      console.log('the ticket is currently: ',this.tickets, ticketTotal, this.totals);
+
     })
 
   }
 
   addTicket(){
     this.ticketItemService.addTicket();
-    console.log('creating ticket');
+    this.totals.push([]);
+  }
+
+  removeTicket(){
+    
   }
 
   setActiveTicket(ticket){

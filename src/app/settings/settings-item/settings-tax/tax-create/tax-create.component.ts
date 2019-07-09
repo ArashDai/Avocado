@@ -49,6 +49,7 @@ export class TaxCreateComponent implements OnInit {
   onFormSubmit(form: NgForm) {
     if (this.pageType === 'Create') {
       console.log('Creating', form)
+      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
       this.api.post('Tax', form)
         .subscribe(res => {
           let id = res['_id'];
@@ -58,6 +59,7 @@ export class TaxCreateComponent implements OnInit {
         });
     } else if (this.pageType === 'Update') {
       console.log('Updating', form)
+      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
       this.api.update('Tax', this.id, form)
         .subscribe(res => {
           let id = res['_id'];

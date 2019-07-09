@@ -51,6 +51,7 @@ export class CategoryCreateComponent implements OnInit {
   onFormSubmit(form: NgForm) {
     if (this.pageType === 'Create') {
       console.log('Creating', form)
+      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
       this.api.post('Category', form)
         .subscribe(res => {
           let id = res['_id'];
@@ -60,6 +61,7 @@ export class CategoryCreateComponent implements OnInit {
         });
     } else if (this.pageType === 'Update') {
       console.log('Updating', form)
+      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
       this.api.update('Category', this.id, form)
         .subscribe(res => {
           let id = res['_id'];

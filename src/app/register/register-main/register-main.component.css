@@ -1,0 +1,12 @@
+#register{
+    display: flex;
+    justify-content: center;
+}
+
+#register #ticket{
+    flex-basis: 40%;
+}
+
+#register #selector{
+    flex-basis: 60%;
+}

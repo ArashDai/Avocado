@@ -91,13 +91,16 @@ export class ComponentCreateComponent implements OnInit {
   }
 
   createForm(){
-    this.componentCreateForm = this.fb.group({
+    let def = {
       name:'',
       type: '',
       description:'',
       categories: [],
       options: []
-    });
+    }
+
+    this.componentCreateForm = this.fb.group(def);
+    this.componentCreateForm.setValue(def);
   }
 
 
@@ -129,10 +132,13 @@ export class ComponentCreateComponent implements OnInit {
     }
   }
 
-  selected(event: MatAutocompleteSelectedEvent, selectedItems, inputType, ctrl): void {
+  selected(event: MatAutocompleteSelectedEvent, selectedItems, inputType, ctrl, field): void {
+
     if ( this[selectedItems].indexOf(event.option.viewValue) < 0 ){
       this[selectedItems].push(event.option.viewValue);
     }
+
+    this.componentCreateForm.setValue(Object.assign(this.componentCreateForm.value, {[field]: this[selectedItems]}));
     this[inputType].nativeElement.value = '';
     this[ctrl].setValue(null);
   }
@@ -145,6 +151,7 @@ export class ComponentCreateComponent implements OnInit {
   onFormSubmit(form: NgForm) {
     if (this.pageType === 'Create') {
       console.log('Creating', form)
+      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
       this.api.post('Component', form)
         .subscribe(res => {
           let id = res['_id'];
@@ -154,6 +161,7 @@ export class ComponentCreateComponent implements OnInit {
         });
     } else if (this.pageType === 'Update') {
       console.log('Updating', form)
+      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
       this.api.update('Component', this.id, form)
         .subscribe(res => {
           let id = res['_id'];

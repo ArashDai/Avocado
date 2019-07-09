@@ -50,6 +50,7 @@ export class SubtypeCreateComponent implements OnInit {
 
     if (this.pageType === 'Create') {
       console.log('Creating', form)
+      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
       this.api.post('Subtype', form)
         .subscribe(res => {
           let id = res['_id'];
@@ -59,6 +60,7 @@ export class SubtypeCreateComponent implements OnInit {
         });
     } else if (this.pageType === 'Update') {
       console.log('Updating', form)
+      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
       this.api.update('Subtype', this.id, form)
         .subscribe(res => {
           let id = res['_id'];

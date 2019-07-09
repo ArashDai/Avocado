@@ -74,13 +74,15 @@ export class OptionCreateComponent implements OnInit {
   }
 
   createForm(){
-    this.optionCreateForm = this.fb.group({
+    let def = {
       name: '',
       description: '',
       type:'',
       categories:[],
       fee: 0
-    });
+    }
+    this.optionCreateForm = this.fb.group(def);
+    this.optionCreateForm.setValue(def);
   }
 
   add(event: MatChipInputEvent, ctrl, type): void { 
@@ -108,10 +110,12 @@ export class OptionCreateComponent implements OnInit {
     }
   }
 
-  selected(event: MatAutocompleteSelectedEvent, selectedItems, inputType, ctrl): void {
+  selected(event: MatAutocompleteSelectedEvent, selectedItems, inputType, ctrl, field): void {
     if ( this[selectedItems].indexOf(event.option.viewValue) < 0 ){
       this[selectedItems].push(event.option.viewValue);
     }
+
+    this.optionCreateForm.setValue(Object.assign(this.optionCreateForm.value, {[field]: this[selectedItems]}));
     this[inputType].nativeElement.value = '';
     this[ctrl].setValue(null);
   }
@@ -121,25 +125,10 @@ export class OptionCreateComponent implements OnInit {
     return this[type].filter(item => item.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  private _replaceNulls(item) {
-    // there should be a better way to do this
-    for (let property in item){
-      switch( property ) {
-        case 'categories': 
-        case 'components': 
-        case 'modifiers': 
-        case 'options': 
-        case 'taxes': 
-        case 'types': 
-          item[property] = [];
-      }
-    }
-  }
-
   onFormSubmit(form: NgForm) {
     if (this.pageType === 'Create') {
       console.log('Creating', form)
-      this._replaceNulls(form);
+      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
       this.api.post('Option', form)
         .subscribe(res => {
           let id = res['_id'];
@@ -149,6 +138,7 @@ export class OptionCreateComponent implements OnInit {
         });
     } else if (this.pageType === 'Update') {
       console.log('Updating', form)
+      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
       this.api.update('Option', this.id, form)
         .subscribe(res => {
           let id = res['_id'];

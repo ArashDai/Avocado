@@ -31,8 +31,11 @@ export class DynamicFormComponent implements OnInit {
   ) {  }
  
   ngOnInit() {
-    console.log('am i passing questions?',this.questions)
     this.form = this.qcs.toFormGroup(this.questions);
+    //replaces nulls with empty arrays
+    this.questions.map( c => {
+      if(c.controlType === 'dropdown') this.form.setValue(Object.assign(this.form.value,{[c.key]: []}));
+    })
   }
  
   onSubmit() {

@@ -48,6 +48,7 @@ export class TypeCreateComponent implements OnInit {
   onFormSubmit(form: NgForm) {
     if (this.pageType === 'Create') {
       console.log('Creating', form)
+      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
       this.api.post('Type', form)
         .subscribe(res => {
           let id = res['_id'];
@@ -57,6 +58,7 @@ export class TypeCreateComponent implements OnInit {
         });
     } else if (this.pageType === 'Update') {
       console.log('Updating', form)
+      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
       this.api.update('Type', this.id, form)
         .subscribe(res => {
           let id = res['_id'];
