@@ -56,7 +56,6 @@ router.get('/name*/:name', function(req ,res, next){
   let DB = dbSelector(db);
   DB.findOne({name:req.params.name}, function (err, post){
     if (err) return next(err);
-    console.log('potato potato potato',post)
     res.json(post);
   });
 });

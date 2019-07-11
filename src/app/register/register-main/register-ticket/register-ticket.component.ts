@@ -24,9 +24,7 @@ export class RegisterTicketComponent implements OnInit {
   ngOnInit() {
     this.ticketItemService.getTickets().subscribe((tickets) => {
       this.tickets = tickets;
-      // this.ticketTotal = tickets[this.activeTicket].reduce((acc, c) => { return acc + c['total']},0)
-      // i need to assign ticketTotal, ticketTaxTotal, ticketSubTotal
-      // the totals need to be added to the ticket
+
       let ticketTotal = 0;
       let ticketTaxTotal = 0;
       let ticketSubtotal = 0;

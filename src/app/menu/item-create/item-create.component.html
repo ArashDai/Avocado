@@ -188,7 +188,7 @@
   </mat-form-field>
 
   <mat-form-field class="full-width">
-    <input matInput placeholder="Price" formControlName="price" type="number" step="0.01" [errorStateMatcher]="matcher">
+    <input matInput placeholder="Price" formControlName="price" type="number" step="0.01" value="0.00" [errorStateMatcher]="matcher">
     <mat-error>
       <span *ngIf="!itemCreateForm.get('price').valid && itemCreateForm.get('price').touched">Please enter a Price</span>
     </mat-error>

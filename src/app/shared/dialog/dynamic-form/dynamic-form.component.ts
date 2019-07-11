@@ -43,9 +43,6 @@ export class DynamicFormComponent implements OnInit {
     this.payload = this.form.value;
     if( this.dialogType === 'menu-selection' ){
       //send the payload to the register ticket component with ItemTicketService
-      console.log('let me see the payload', this.payload,'and item', this.item);
-      //right here calculate the final price for this item
-      //based on base price + option fees + modifier fees?
       this.ticketItemService.addItem({...this.item, ...this.payload}); 
     }
     this.dialog.close()
