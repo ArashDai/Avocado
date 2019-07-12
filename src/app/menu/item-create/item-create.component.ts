@@ -9,6 +9,7 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
 import { DialogQuestionService } from '../../shared/dialog/dialog-question.service';
+import { PriceFormatterService } from 'src/app/shared/price-formatter.service';
 
 @Component({
   selector: 'app-item-create',
@@ -76,6 +77,7 @@ export class ItemCreateComponent implements OnInit {
 
   constructor(
     public service: DialogQuestionService,
+    private priceFormatter: PriceFormatterService,
     private router: Router,
     private route: ActivatedRoute,
     private api: ApiService,
@@ -166,7 +168,7 @@ export class ItemCreateComponent implements OnInit {
         this.selectedComponents = item.components;
         this.selectedTypes = item.types;
 
-        Object.assign(item, {price: this._formatPriceToBills(item['price'])})
+        Object.assign(item, {price: this.priceFormatter.formatPriceToBills(item['price'])})
         console.log('fixed price', item['price'])
         this.itemCreateForm.patchValue(item);
       });
@@ -230,40 +232,11 @@ export class ItemCreateComponent implements OnInit {
     return this[type].filter(item => item.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  private _formatPriceToCents(price: number){
-    //formats a price into cents
-    let priceStr = price.toString();
-    let decimalIndex = priceStr.indexOf('.');
-
-    if(!price || price === 0){
-        return price;
-
-    } else if( decimalIndex === -1){
-        return price * 100;
-
-    } else if ( decimalIndex === priceStr.length-2 ){
-        return price * 100;
-    
-    } else {
-        return Number(priceStr.replace('.',''));
-    }   
-  }
-
-  private _formatPriceToBills(price: number){
-    //formats price into bills
-    if(!price || price === 0){
-        return price;
-    } else {
-        return (price/100).toFixed(2)
-    }
-
-  }
-
   onFormSubmit(form: NgForm) {
 
     form = Object.assign(form, {
       name: form['name'].trim().toLowerCase(),
-      price: this._formatPriceToCents(form['price'])
+      price: this.priceFormatter.formatPriceToCents(form['price'])
     });
 
     if (this.pageType === 'Create') {
