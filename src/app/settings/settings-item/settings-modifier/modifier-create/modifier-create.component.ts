@@ -6,6 +6,7 @@ import { ApiService } from '../../../../api.service';
 import { forkJoin, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { PriceFormatterService } from 'src/app/shared/price-formatter.service';
 
 @Component({
   selector: 'app-modifier-create',
@@ -39,6 +40,7 @@ export class ModifierCreateComponent implements OnInit {
   @ViewChild('autoCategory')  autoCategory:  MatAutocomplete;
 
   constructor(
+    private priceFormatter: PriceFormatterService,
     private router: Router,
     private route: ActivatedRoute,
     private api: ApiService,
@@ -54,6 +56,11 @@ export class ModifierCreateComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.setupForm(this.id);
+  }
+
+  setupForm(id){
+
     forkJoin(
       this.api.getAll('Category'),
       this.api.getAll('Component')
@@ -66,16 +73,19 @@ export class ModifierCreateComponent implements OnInit {
 
     if(this.route.snapshot.data.update){
       this.pageType = 'Update';
-      this.getModifierDetails(this.id);
+      this.getModifierDetails(id);
     }
   }
 
   getModifierDetails(id) {
     this.api.get('Modifier',id)
-      .subscribe(data => {
-        console.log('data', data)
-        this.modifierCreateForm.patchValue(data);
-        this.selectedCategories = data.categories;
+      .subscribe(modifier => {
+        console.log('modifier', modifier)
+        
+        Object.assign(modifier, {fee: this.priceFormatter.formatPriceToBills(modifier['fee'])})
+
+        this.modifierCreateForm.patchValue(modifier);
+        this.selectedCategories = modifier.categories;
       });
   }
 
@@ -133,9 +143,13 @@ export class ModifierCreateComponent implements OnInit {
   }
 
   onFormSubmit(form: NgForm) {
+    form = Object.assign(form, {
+      name: form.name.trim().toLowerCase(),
+      fee: this.priceFormatter.formatPriceToCents(form['fee'])
+    });
+
     if (this.pageType === 'Create') {
       console.log('Creating', form)
-      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
       this.api.post('Modifier', form)
         .subscribe(res => {
           let id = res['_id'];
@@ -145,7 +159,6 @@ export class ModifierCreateComponent implements OnInit {
         });
     } else if (this.pageType === 'Update') {
       console.log('Updating', form)
-      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
       this.api.update('Modifier', this.id, form)
         .subscribe(res => {
           let id = res['_id'];

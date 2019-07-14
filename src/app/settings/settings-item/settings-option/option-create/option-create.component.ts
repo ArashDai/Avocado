@@ -6,6 +6,7 @@ import { map, startWith } from 'rxjs/operators';
 import { ApiService } from '../../../../api.service';
 import { Observable } from 'rxjs';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { PriceFormatterService } from 'src/app/shared/price-formatter.service';
 
 @Component({
   selector: 'app-option-create',
@@ -38,6 +39,7 @@ export class OptionCreateComponent implements OnInit {
   @ViewChild('autoCategory')  autoCategory:  MatAutocomplete;
 
   constructor(
+    private priceFormatter: PriceFormatterService,
     private router: Router,
     private route: ActivatedRoute,
     private api: ApiService,
@@ -56,21 +58,25 @@ export class OptionCreateComponent implements OnInit {
     this.setupForm(this.id);
   }
 
-  setupForm(id) {
-
+  setupForm(id){
     this.api.getAll('Category').subscribe( 
       categories => this.categoryList = categories.map(c => c.name)
     );
     
     if(this.route.snapshot.data.update){
       this.pageType = 'Update';
-      this.api.get('Option',id).subscribe( 
-        option => {
-          this.selectedCategories = option.categories;
-
-          this.optionCreateForm.patchValue(option);
-        });
+      this.getOptionDetails(id);
     }
+  }
+
+  getOptionDetails(id){
+    this.api.get('Option',id)
+    .subscribe( 
+      option => {
+        Object.assign(option, {fee: this.priceFormatter.formatPriceToBills(option['fee'])})
+        this.optionCreateForm.patchValue(option);
+        this.selectedCategories = option.categories;
+      });
   }
 
   createForm(){
@@ -126,9 +132,14 @@ export class OptionCreateComponent implements OnInit {
   }
 
   onFormSubmit(form: NgForm) {
+    form = Object.assign(form, {
+      name: form.name.trim().toLowerCase(),
+      fee: this.priceFormatter.formatPriceToCents(form['fee'])
+    });
+
     if (this.pageType === 'Create') {
       console.log('Creating', form)
-      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
+
       this.api.post('Option', form)
         .subscribe(res => {
           let id = res['_id'];
@@ -138,7 +149,7 @@ export class OptionCreateComponent implements OnInit {
         });
     } else if (this.pageType === 'Update') {
       console.log('Updating', form)
-      form = Object.assign(form, {name: form.name.trim().toLowerCase()});
+
       this.api.update('Option', this.id, form)
         .subscribe(res => {
           let id = res['_id'];

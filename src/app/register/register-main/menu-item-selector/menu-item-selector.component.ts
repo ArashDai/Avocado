@@ -66,7 +66,7 @@ export class MenuItemSelectorComponent implements OnInit {
 
       // input will be either simple or complex
       // a simple item like a danish only needs quantity
-      // a complex item like a sandwich needs the modifiers options removas and additions of the item being added not all of them
+      // a complex item like a sandwich needs the modifiers options removals and additions of the item being added not all of them
       if(  //clean this up
           (item.modifiers && item.modifiers.length > 0) ||
           (item.options && item.options.length > 0) ||

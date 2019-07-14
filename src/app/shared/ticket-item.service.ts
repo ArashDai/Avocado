@@ -36,31 +36,33 @@ export class TicketItemService {
     this.activeTicket = ticketIndex;
   }
 
-  addItem(itemIndex){
-    let subtotal = itemIndex['price'];
+  addItem(newItem){
+    console.log('inside add item newItem:',newItem)
+
+    let subtotal = newItem['price'];
     let taxes = [];
     let taxTotal = 0;
     let flatTaxes = 0;
-    //in the future remove the subscribe callback from here and just call it with value, move it below calculatePrice
-    this.calculatePrice(itemIndex).subscribe((value: Array<any>) => {
-      value.forEach( priceModifier => {
-        if(priceModifier.rate !== undefined){
-          taxes.push(priceModifier.rate)
-        } else if( priceModifier.flatrate !== undefined){
-          flatTaxes += priceModifier.flatrate;
-        } else {
-          subtotal += priceModifier.fee;
-        }
+
+    if(!newItem['taxes'].length && !newItem['modifiers'].length && !newItem['options'].length){
+      //item has no modifiers options or taxes
+      this._updateTicket(newItem, subtotal, taxTotal, flatTaxes);
+    } else {
+      this._requestPrices(newItem).subscribe((value: Array<any>) => {
+        value.forEach( priceModifier => {
+          if(priceModifier.rate !== undefined){
+            taxes.push(priceModifier.rate)
+          } else if( priceModifier.flatrate !== undefined){
+            flatTaxes += priceModifier.flatrate;
+          } else {
+            subtotal += priceModifier.fee;
+          }
+        });
+        taxes.forEach( tax => taxTotal += subtotal*tax );
+
+        this._updateTicket(newItem, subtotal, taxTotal, flatTaxes);
       });
-      
-      taxes.forEach( tax => taxTotal += subtotal*tax );
-
-      const total = subtotal + taxTotal + flatTaxes;
-      const item = Object.assign(itemIndex, {total, subtotal, tax:taxTotal});
-
-      this.tickets[this.activeTicket] = [...this.tickets[this.activeTicket],item];
-      this.tickets$.next(this.tickets);
-    });
+    }
   }
 
   removeItem(ticketIndex, itemIndex){
@@ -73,7 +75,8 @@ export class TicketItemService {
     this.tickets$.next(this.tickets);
   }
 
-  calculatePrice(item: object): Observable<any> {
+  private _requestPrices(item: object): Observable<any> {
+    //requests tax rates and prices of modifiers, and components
     let priceModifiers = [];
 
     for(let property in item){
@@ -85,12 +88,23 @@ export class TicketItemService {
         case 'taxes':
           item[property].map( name => priceModifiers.push({db: property.slice(0, -2), name }) );
         break;
+        default:
+        break;
       }
     }
 
     return of(priceModifiers).pipe(
       mergeMap( q => forkJoin( ...q.map((c) => this.api.getByName(c.db, c.name)) ) )
     )
+  }
+
+  private _updateTicket(newItem, subtotal, taxTotal, flatTaxes){
+    //calculate total, update item and tickets
+    const total = subtotal + taxTotal + flatTaxes;
+    const item = Object.assign(newItem, {total, subtotal, tax:taxTotal});
+
+    this.tickets[this.activeTicket] = [...this.tickets[this.activeTicket],item];
+    this.tickets$.next(this.tickets);
   }
 
 }

@@ -19,7 +19,7 @@
   </mat-form-field>
 
   <mat-form-field class="full-width">
-    <textarea matInput placeholder="Fee" formControlName="fee" [errorStateMatcher]="matcher"></textarea>
+    <input matInput placeholder="Fee" formControlName="fee" value="0.00" type="number" [errorStateMatcher]="matcher">
     <mat-error>
       <span *ngIf="!modifierCreateForm.get('fee').valid && modifierCreateForm.get('fee').touched">Please enter a fee</span>
     </mat-error>

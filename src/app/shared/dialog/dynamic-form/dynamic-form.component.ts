@@ -42,6 +42,7 @@ export class DynamicFormComponent implements OnInit {
     console.log('FORM', this);
     this.payload = this.form.value;
     if( this.dialogType === 'menu-selection' ){
+      console.log('should be adding item now')
       //send the payload to the register ticket component with ItemTicketService
       this.ticketItemService.addItem({...this.item, ...this.payload}); 
     }
