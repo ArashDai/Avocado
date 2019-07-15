@@ -33,6 +33,11 @@ export class RegisterTicketComponent implements OnInit {
 
   deleteTicket(){
     this.ticketItemService.deleteTicket(this.activeTicket);
+
+    if(!this.ticketsData.tickets[this.activeTicket]){
+      this.activeTicket--;
+      this.ticketItemService.changeActiveTicket(this.activeTicket);
+    } 
   }
 
   setActiveTicket(ticket){

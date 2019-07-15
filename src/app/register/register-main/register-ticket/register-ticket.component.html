@@ -1,6 +1,6 @@
 <div id='register-ticket'>
   <div id="ticket-wrapper">
-    <h3> ticket number {{this.activeTicket+1}}</h3><button (click)="deleteTicket()">delete</button>
+    <h3> ticket number {{this.activeTicket+1}}</h3> <button (click)="deleteTicket()">delete</button>
 
     <div *ngFor="let item of ticketsData.tickets[this.activeTicket]; index as i ">
         <div id="ticketItem">
