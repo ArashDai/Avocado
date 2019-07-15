@@ -1,27 +1,27 @@
 <div id='register-ticket'>
   <div id="ticket-wrapper">
-    <h3> ticket number {{this.activeTicket+1}}</h3>
+    <h3> ticket number {{this.activeTicket+1}}</h3><button (click)="deleteTicket()">delete</button>
 
-    <div *ngFor="let item of tickets[this.activeTicket]">
+    <div *ngFor="let item of ticketsData.tickets[this.activeTicket]; index as i ">
         <div id="ticketItem">
           {{item.name}} 
           Amount: {{item.amount}}
           Options: {{item.options}}
           Modifiers: {{item.modifiers}}
           Total: {{item.total}}
-          delete
+          <button (click)="deleteItem(i)">delete</button>
         </div>
     </div>
   </div>
 
   <div id='totals'>
-    subtotal: {{this.totals[activeTicket]['subtotal']}}
-    tax: {{this.totals[activeTicket]['tax']}}
-    total: {{this.totals[activeTicket]['total']}}
+    subtotal: {{this.ticketsData.totals[activeTicket]['subtotal']}}
+    tax: {{this.ticketsData.totals[activeTicket]['tax']}}
+    total: {{this.ticketsData.totals[activeTicket]['total']}}
   </div>
 
   <div id="ticket-select">
-    <div *ngFor="let ticket of tickets; let index = index">
+    <div *ngFor="let ticket of this.ticketsData.tickets; index as index">
       <div (click)="setActiveTicket(index)">{{index+1}}</div>
     </div>
 

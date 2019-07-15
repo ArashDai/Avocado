@@ -1,54 +1,38 @@
 import { Component, OnInit } from '@angular/core';
-
 import { TicketItemService } from '../../../shared/ticket-item.service';
-import { ApiService } from '../../../api.service';
 
 @Component({
   selector: 'app-register-ticket',
   templateUrl: './register-ticket.component.html',
   styleUrls: ['./register-ticket.component.css']
 })
+
 export class RegisterTicketComponent implements OnInit {
 
   activeTicket = 0;
-  tickets = [];
-  totals = [];
-
-
-
+  ticketsData = {
+    tickets:[[]],
+    totals:[{subtotal:0, tax:0, total:0}]
+  };
+  
   constructor( 
-    private ticketItemService :TicketItemService,
-    private api: ApiService
+    private ticketItemService :TicketItemService
   ) { }
 
   ngOnInit() {
-    this.ticketItemService.getTickets().subscribe((tickets) => {
-      this.tickets = tickets;
+    this.ticketItemService.getTickets().subscribe(tickets => this.ticketsData = tickets)
+  }
 
-      let ticketTotal = 0;
-      let ticketTaxTotal = 0;
-      let ticketSubtotal = 0;
-
-      tickets[this.activeTicket].forEach( c => {
-        ticketTotal += c.total;
-        ticketTaxTotal += c.tax;
-        ticketSubtotal += c.subtotal;
-      })
-
-      this.totals[this.activeTicket] = {total: ticketTotal, subtotal: ticketSubtotal, tax: ticketTaxTotal};
-      console.log('the ticket is currently: ',this.tickets, ticketTotal, this.totals);
-
-    })
-
+  deleteItem(itemIndex){
+    this.ticketItemService.deleteItem(this.activeTicket,itemIndex)
   }
 
   addTicket(){
     this.ticketItemService.addTicket();
-    this.totals.push([]);
   }
 
-  removeTicket(){
-    
+  deleteTicket(){
+    this.ticketItemService.deleteTicket(this.activeTicket);
   }
 
   setActiveTicket(ticket){

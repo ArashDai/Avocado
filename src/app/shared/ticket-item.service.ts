@@ -4,32 +4,34 @@ import { ApiService } from '../api.service';
 import { mergeMap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 
-const initialTickets = [[]];
-
 
 @Injectable({
   providedIn: 'root',
 })   
+
 export class TicketItemService {
 
   activeTicket = 0;
-  tickets = [...initialTickets];
+  
+  ticketsData = {
+    tickets:[[]],
+    totals:[{subtotal:0, tax:0, total:0}]
+  };
 
-  private tickets$ = new BehaviorSubject(initialTickets);
+  private ticketsData$ = new BehaviorSubject(this.ticketsData);
 
   constructor(private api: ApiService) { }
 
-  getTickets() {
-    return this.tickets$.asObservable();
+  getTickets(){
+    return this.ticketsData$.asObservable();
   }
 
-  getTicket(ticketIndex){
-    return this.tickets$.getValue().findIndex(ticketIndex);
-  }
-
-  addTicket() {
-    this.tickets = [...this.tickets, []];
-    this.tickets$.next(this.tickets);
+  addTicket(){
+    this.ticketsData = {
+     tickets: [...this.ticketsData.tickets, []],
+     totals: [...this.ticketsData.totals, {subtotal:0, tax:0, total:0}]
+    }
+    this.ticketsData$.next(this.ticketsData);
   }
 
   changeActiveTicket(ticketIndex){
@@ -37,7 +39,6 @@ export class TicketItemService {
   }
 
   addItem(newItem){
-    console.log('inside add item newItem:',newItem)
 
     let subtotal = newItem['price'];
     let taxes = [];
@@ -45,9 +46,10 @@ export class TicketItemService {
     let flatTaxes = 0;
 
     if(!newItem['taxes'].length && !newItem['modifiers'].length && !newItem['options'].length){
-      //item has no modifiers options or taxes
-      this._updateTicket(newItem, subtotal, taxTotal, flatTaxes);
+      // if item has no modifiers options or taxes
+      this._addItemHelper(newItem, subtotal, taxTotal, flatTaxes);
     } else {
+      // otherwise need to grab fees and taxes
       this._requestPrices(newItem).subscribe((value: Array<any>) => {
         value.forEach( priceModifier => {
           if(priceModifier.rate !== undefined){
@@ -59,24 +61,36 @@ export class TicketItemService {
           }
         });
         taxes.forEach( tax => taxTotal += subtotal*tax );
-
-        this._updateTicket(newItem, subtotal, taxTotal, flatTaxes);
+        this._addItemHelper(newItem, subtotal, taxTotal, flatTaxes);
       });
     }
   }
 
-  removeItem(ticketIndex, itemIndex){
-    this.tickets[ticketIndex].splice(itemIndex,1);
-    this.tickets$.next(this.tickets);
+  deleteItem(ticketIndex, itemIndex){
+    //delete item and recalculate total price for ticket
+    this.ticketsData.totals[this.activeTicket].tax -= this.ticketsData.tickets[ticketIndex][itemIndex]['tax'];
+    this.ticketsData.totals[this.activeTicket].subtotal -= this.ticketsData.tickets[ticketIndex][itemIndex]['subtotal'];
+    this.ticketsData.totals[this.activeTicket].total -= this.ticketsData.tickets[ticketIndex][itemIndex]['total'];
+
+    this.ticketsData.tickets[ticketIndex].splice(itemIndex,1);
+    this.ticketsData$.next(this.ticketsData);
   }
 
-  removeTicket(ticketIndex){
-    this.tickets.splice(ticketIndex,1);
-    this.tickets$.next(this.tickets);
+  deleteTicket(ticketIndex){
+    //delete active ticket, if last ticket add an empty one
+    this.ticketsData.tickets.splice(ticketIndex,1);
+    this.ticketsData.totals.splice(ticketIndex,1);
+    if(this.ticketsData.tickets.length === 0){
+      this.ticketsData = {
+        tickets:[[]],
+        totals:[{subtotal:0, tax:0, total:0}]
+      };
+    }
+    this.ticketsData$.next(this.ticketsData);
   }
 
   private _requestPrices(item: object): Observable<any> {
-    //requests tax rates and prices of modifiers, and components
+    //requests tax rates and prices of modifiers and components
     let priceModifiers = [];
 
     for(let property in item){
@@ -98,13 +112,18 @@ export class TicketItemService {
     )
   }
 
-  private _updateTicket(newItem, subtotal, taxTotal, flatTaxes){
-    //calculate total, update item and tickets
+  private _addItemHelper(newItem, subtotal, taxTotal, flatTaxes){
+    // updates ticket adding an item, calculates total
     const total = subtotal + taxTotal + flatTaxes;
     const item = Object.assign(newItem, {total, subtotal, tax:taxTotal});
 
-    this.tickets[this.activeTicket] = [...this.tickets[this.activeTicket],item];
-    this.tickets$.next(this.tickets);
+    this.ticketsData.tickets[this.activeTicket] = [...this.ticketsData.tickets[this.activeTicket],item];
+
+    this.ticketsData.totals[this.activeTicket].tax += item.tax;
+    this.ticketsData.totals[this.activeTicket].subtotal += item.subtotal;
+    this.ticketsData.totals[this.activeTicket].total += item.total;
+
+    this.ticketsData$.next(this.ticketsData);
   }
 
 }
