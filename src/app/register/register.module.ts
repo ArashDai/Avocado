@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 
 import { RegisterRoutingModule } from './register-routing.module';
 import { RegisterMainComponent } from './register-main/register-main.component';
@@ -22,6 +22,7 @@ import { RegisterTicketItemComponent } from './register-main/register-ticket/reg
     RegisterTicketItemComponent
   ],
   providers: [
+    CurrencyPipe,
     DialogQuestionService
   ]
 })

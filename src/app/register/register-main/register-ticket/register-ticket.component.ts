@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TicketItemService } from '../../../shared/ticket-item.service';
+import {CurrencyPipe} from '@angular/common'
 
 @Component({
   selector: 'app-register-ticket',
@@ -16,7 +17,8 @@ export class RegisterTicketComponent implements OnInit {
   };
   
   constructor( 
-    private ticketItemService :TicketItemService
+    private cp: CurrencyPipe,
+    private ticketItemService: TicketItemService
   ) { }
 
   ngOnInit() {

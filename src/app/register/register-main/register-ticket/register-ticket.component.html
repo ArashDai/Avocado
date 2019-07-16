@@ -15,9 +15,9 @@
   </div>
 
   <div id='totals'>
-    subtotal: {{this.ticketsData.totals[activeTicket]['subtotal']}}
-    tax: {{this.ticketsData.totals[activeTicket]['tax']}}
-    total: {{this.ticketsData.totals[activeTicket]['total']}}
+    subtotal: {{this.ticketsData.totals[activeTicket]['subtotal'] / 100 | currency }}
+    tax: {{this.ticketsData.totals[activeTicket]['tax'] / 100 | currency }}
+    total: {{this.ticketsData.totals[activeTicket]['total'] / 100 | currency }}
   </div>
 
   <div id="ticket-select">
