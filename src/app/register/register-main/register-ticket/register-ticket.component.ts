@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { CurrencyPipe } from '@angular/common';
+
 import { TicketItemService } from '../../../shared/ticket-item.service';
-import {CurrencyPipe} from '@angular/common'
+import { DialogComponent } from '../../../shared/dialog/dialog.component';
 
 @Component({
   selector: 'app-register-ticket',
@@ -18,7 +21,8 @@ export class RegisterTicketComponent implements OnInit {
   
   constructor( 
     private cp: CurrencyPipe,
-    private ticketItemService: TicketItemService
+    private ticketItemService: TicketItemService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -45,6 +49,27 @@ export class RegisterTicketComponent implements OnInit {
   setActiveTicket(ticket){
     this.activeTicket = ticket;
     this.ticketItemService.changeActiveTicket(ticket)
+  }
+
+  checkout(){
+    // a lot of work to do here
+    // pass the ticket to the dialog component
+    // dialog component needs logic to deal with checkout operations
+
+    console.log('opening checkout dialog');
+
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '45%',
+      data: {
+        // ticket: this.activeTicket
+        dialogType:'checkout',
+        dialog:this
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The checkout dialog was closed');
+    });
   }
 
 }

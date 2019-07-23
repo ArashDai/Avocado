@@ -61,6 +61,7 @@ import {
     MatFormFieldModule,
   ],
   exports:[
+    DynamicFormComponent,
     BrowserModule,
     FormsModule,
     HttpClientModule,
@@ -84,7 +85,8 @@ import {
     MatFormFieldModule
   ],
   entryComponents: [
-    DialogComponent
+    DialogComponent,
+    DynamicFormComponent
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
