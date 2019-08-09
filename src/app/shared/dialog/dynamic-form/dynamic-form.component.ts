@@ -5,7 +5,7 @@ import { ApiService } from '../../../api.service';
 import { DialogQuestionBase }              from '../dialog-question-base';
 import { DialogQuestionControlService }    from '../dialog-question-control.service';
 
-import { TicketItemService } from '../../ticket-item.service';
+import { TicketService } from '../../ticket.service';
  
 @Component({
   selector: 'app-dynamic-form',
@@ -27,7 +27,7 @@ export class DynamicFormComponent implements OnInit {
   constructor(
     private api: ApiService,
     private qcs: DialogQuestionControlService,
-    private ticketItemService: TicketItemService  
+    private ticketService: TicketService  
   ) {  }
  
   ngOnInit() {
@@ -43,8 +43,8 @@ export class DynamicFormComponent implements OnInit {
     this.payload = this.form.value;
     if( this.dialogType === 'menu-selection' ){
       console.log('should be adding item now')
-      //send the payload to the register ticket component with ItemTicketService
-      this.ticketItemService.addItem({...this.item, ...this.payload}); 
+      //send the payload to the register ticket component with TicketService
+      this.ticketService.addItem({...this.item, ...this.payload}); 
     }
     this.dialog.close()
   }

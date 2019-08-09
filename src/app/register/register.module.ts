@@ -6,7 +6,6 @@ import { RegisterMainComponent } from './register-main/register-main.component';
 import { MenuItemSelectorComponent } from './register-main/menu-item-selector/menu-item-selector.component';
 import { RegisterTicketComponent } from './register-main/register-ticket/register-ticket.component';
 import { DialogQuestionService } from '../shared/dialog/dialog-question.service';
-import { RegisterTicketItemComponent } from './register-main/register-ticket/register-ticket-item/register-ticket-item.component';
 
 
 
@@ -18,8 +17,7 @@ import { RegisterTicketItemComponent } from './register-main/register-ticket/reg
   declarations: [
     RegisterMainComponent,
     MenuItemSelectorComponent,
-    RegisterTicketComponent,
-    RegisterTicketItemComponent
+    RegisterTicketComponent
   ],
   providers: [
     CurrencyPipe,

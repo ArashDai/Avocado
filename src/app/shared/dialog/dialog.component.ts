@@ -2,7 +2,9 @@ import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 import { TemplateRef, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
-import { DynamicFormComponent } from './dynamic-form/dynamic-form.component'
+
+import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
+import { CheckoutDialogComponent } from './ticket-dialog/checkout-dialog/checkout-dialog.component';
 
 export interface DialogData {
   dialogType: string;
@@ -46,24 +48,28 @@ export class DialogComponent implements OnInit {
     this.applyAttributes(this.data.dialogType, this.componentRef);
   }
 
-  componentSelector(type) {
-    console.log('Dynamic',DynamicFormComponent)
+  componentSelector(type): any {
+    console.log('component Selector',type)
     switch(type){
-      case 'menu-selection': return DynamicFormComponent
-      // case 'checkout': return DynamicFormComponent next i need to make the checkout component
+      case 'menu-selection': 
+        return DynamicFormComponent
+      case 'checkout': 
+        return CheckoutDialogComponent
     }
   }
 
   applyAttributes(type, component){
     switch(type){
       case 'menu-selection': 
-        //is there a cleaner way to do this?
         component.instance.item = this.data.item;
         component.instance.questions = this.data.questions;
         component.instance.name = this.data.item.name;
         component.instance.dialog = this.dialogRef;
         component.instance.dialogType = this.data.dialogType;
-      // case 'checkout': return DynamicFormComponent next i need to make the checkout component
+        break;
+      case 'checkout':
+        component.instance.ticket = this.data['ticket'];
+        break;
     }
   }
 

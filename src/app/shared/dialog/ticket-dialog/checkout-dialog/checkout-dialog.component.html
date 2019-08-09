@@ -1,0 +1,26 @@
+<div id='wrapper' >
+    <div id='ticketDisplay'>
+        <!-- register Ticket -->
+        <!-- maybe just import the ticket component into here -->
+        <h3>Ticket #: {{ticketNumber}}</h3>
+        
+        <div *ngFor="let item of checkoutTicket.ticketItems; index as i " id="ticketItemList">
+            <div id="ticketItem">
+            {{item.name}}
+            {{item.amount ? 'Amount: '+item.amount : null }} 
+            {{item.options.length > 0 ? 'Options: '+item.options : null }}
+            {{item.modifiers.length > 0 ? 'Modifiers: '+item.modifiers : null }}
+            Price: {{item.total}}
+            </div>
+        </div>
+
+    </div>
+
+    <div id='checkoutFunctions'>
+        <button (click)="selectedPortal = cashPortal">Cash</button>
+        <button (click)="selectedPortal = creditPortal">Credit / Debit</button>
+        <!-- <button (click)="selectedPortal = cashPortal">Gift Card</button> -->
+
+        <ng-template [cdkPortalOutlet]="selectedPortal"></ng-template>
+    </div>
+</div>

@@ -9,11 +9,10 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })   
 
-export class TicketItemService {
+export class TicketService {
 
-  activeTicket = 0;
-  
   ticketsData = {
+    activeTicket: 0,
     tickets:[[]],
     totals:[{subtotal:0, tax:0, total:0}]
   };
@@ -26,8 +25,20 @@ export class TicketItemService {
     return this.ticketsData$.asObservable();
   }
 
+  getTicket(index){
+    return {
+      ticketItems: this.ticketsData.tickets[index],
+      totals: this.ticketsData.totals[index]
+    }
+  }
+
+  getActiveTicket(){
+    return this.getTicket(this.ticketsData.activeTicket);
+  }
+
   addTicket(){
     this.ticketsData = {
+     activeTicket: this.ticketsData.activeTicket, 
      tickets: [...this.ticketsData.tickets, []],
      totals: [...this.ticketsData.totals, {subtotal:0, tax:0, total:0}]
     }
@@ -35,7 +46,8 @@ export class TicketItemService {
   }
 
   changeActiveTicket(ticketIndex){
-    this.activeTicket = ticketIndex;
+    this.ticketsData.activeTicket = ticketIndex;
+    this.ticketsData$.next(this.ticketsData);
   }
 
   addItem(newItem){
@@ -68,9 +80,9 @@ export class TicketItemService {
 
   deleteItem(ticketIndex, itemIndex){
     //delete item and recalculate total price for ticket
-    this.ticketsData.totals[this.activeTicket].tax -= this.ticketsData.tickets[ticketIndex][itemIndex]['tax'];
-    this.ticketsData.totals[this.activeTicket].subtotal -= this.ticketsData.tickets[ticketIndex][itemIndex]['subtotal'];
-    this.ticketsData.totals[this.activeTicket].total -= this.ticketsData.tickets[ticketIndex][itemIndex]['total'];
+    this.ticketsData.totals[this.ticketsData.activeTicket].tax -= this.ticketsData.tickets[ticketIndex][itemIndex]['tax'];
+    this.ticketsData.totals[this.ticketsData.activeTicket].subtotal -= this.ticketsData.tickets[ticketIndex][itemIndex]['subtotal'];
+    this.ticketsData.totals[this.ticketsData.activeTicket].total -= this.ticketsData.tickets[ticketIndex][itemIndex]['total'];
 
     this.ticketsData.tickets[ticketIndex].splice(itemIndex,1);
     this.ticketsData$.next(this.ticketsData);
@@ -82,8 +94,9 @@ export class TicketItemService {
     this.ticketsData.totals.splice(ticketIndex,1);
     if(this.ticketsData.tickets.length === 0){
       this.ticketsData = {
-        tickets:[[]],
-        totals:[{subtotal:0, tax:0, total:0}]
+        activeTicket: 0,
+        tickets: [[]],
+        totals: [{subtotal:0, tax:0, total:0}]
       };
     }
     this.ticketsData$.next(this.ticketsData);
@@ -117,11 +130,11 @@ export class TicketItemService {
     const total = subtotal + taxTotal + flatTaxes;
     const item = Object.assign(newItem, {total, subtotal, tax:taxTotal});
 
-    this.ticketsData.tickets[this.activeTicket] = [...this.ticketsData.tickets[this.activeTicket],item];
+    this.ticketsData.tickets[this.ticketsData.activeTicket] = [...this.ticketsData.tickets[this.ticketsData.activeTicket],item];
 
-    this.ticketsData.totals[this.activeTicket].tax += item.tax;
-    this.ticketsData.totals[this.activeTicket].subtotal += item.subtotal;
-    this.ticketsData.totals[this.activeTicket].total += item.total;
+    this.ticketsData.totals[this.ticketsData.activeTicket].tax += item.tax;
+    this.ticketsData.totals[this.ticketsData.activeTicket].subtotal += item.subtotal;
+    this.ticketsData.totals[this.ticketsData.activeTicket].total += item.total;
 
     this.ticketsData$.next(this.ticketsData);
   }

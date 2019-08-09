@@ -1,0 +1,18 @@
+
+#ticketDisplay{
+    vertical-align: top;
+    display: inline-block;
+    width: 49.5%;
+    border: 1px solid red;
+}
+
+#ticketItemList{
+    border:1px solid purple;
+}
+
+#checkoutFunctions{
+    vertical-align: top;
+    display: inline-block;
+    width: 49.5%;
+    border: 1px solid blue;
+}
