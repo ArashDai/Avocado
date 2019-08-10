@@ -1,12 +1,15 @@
-<mat-toolbar>
-  <span>{{title}}</span>
-  <span class="spacer"></span>
-  <span>
-    <a mat-raised-button color="primary" routerLink="">Home</a>
-    <a mat-raised-button color="primary" routerLink="/menu">Menu</a>
-    <a mat-raised-button color="primary" routerLink="/register">Register</a>
-    <a mat-raised-button color="primary" routerLink="/settings">Settings</a>
-  </span>
-</mat-toolbar>
-
-<router-outlet></router-outlet>
+<mat-sidenav-container class="example-container" >
+  <mat-sidenav #sidenav [mode]="over">
+      <p><button mat-button (click)="sidenav.toggle()">{{title}}</button></p>
+      <hr>
+      <a mat-raised-button color="primary" routerLink="">Home</a>
+      <a mat-raised-button color="primary" routerLink="/menu">Menu</a>
+      <a mat-raised-button color="primary" routerLink="/register">Register</a>
+      <a mat-raised-button color="primary" routerLink="/settings">Settings</a>
+  </mat-sidenav>
+  
+    <mat-sidenav-content>
+      <p><button mat-button (click)="sidenav.toggle()">{{title}}</button></p>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

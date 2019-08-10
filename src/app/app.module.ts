@@ -4,7 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HashLocationStrategy, LocationStrategy, CommonModule } from '@angular/common'
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
 import { DialogComponent } from './shared/dialog/dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DynamicFormQuestionComponent } from './shared/dialog/dynamic-form-question/dynamic-form-question.component';
@@ -16,6 +18,7 @@ import { CreditCheckoutComponent } from './shared/dialog/ticket-dialog/checkout-
 
 
 import {
+  MatSidenavModule,
   MatInputModule,
   MatDialogModule,
   MatPaginatorModule,
@@ -33,9 +36,11 @@ import {
   MatFormFieldModule } from "@angular/material";
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     DialogComponent,
     DynamicFormQuestionComponent,
     DynamicFormComponent,
@@ -52,6 +57,7 @@ import {
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    MatSidenavModule,
     MatInputModule,
     MatDialogModule,
     MatTableModule,
@@ -80,6 +86,7 @@ import {
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    MatSidenavModule,
     MatInputModule,
     MatDialogModule,
     MatTableModule,

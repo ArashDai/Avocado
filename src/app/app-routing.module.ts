@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {
@@ -15,8 +16,12 @@ const routes: Routes = [
     loadChildren: './settings/settings.module#SettingsModule'
   },
   {
+    path:'home',
+    component:HomeComponent
+  },
+  {
     path: '',
-    redirectTo: '',
+    redirectTo: '/home',
     pathMatch: 'full'
   }
 ];
