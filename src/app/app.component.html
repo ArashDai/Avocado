@@ -1,15 +1,49 @@
-<mat-sidenav-container class="example-container" >
+<mat-sidenav-container class="sidebar-container" >
   <mat-sidenav #sidenav [mode]="over">
-      <p><button mat-button (click)="sidenav.toggle()">{{title}}</button></p>
-      <hr>
-      <a mat-raised-button color="primary" routerLink="">Home</a>
-      <a mat-raised-button color="primary" routerLink="/menu">Menu</a>
-      <a mat-raised-button color="primary" routerLink="/register">Register</a>
-      <a mat-raised-button color="primary" routerLink="/settings">Settings</a>
+
+      <!-- <button mat-button (click)="sidenav.toggle()" class='right-btn'>close</button> -->
+
+      <!-- User -->
+      <div id="user">
+        <!-- profile picture link to employee profile -->
+        <img src="../assets/blank_profile.jpeg" alt="profile picture" id="profile-picture">
+        
+        <div>
+          <p id='username'> Alex C.</p>
+          <!-- logout button -->
+          <button mat-button class='right-btn' >logout</button>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <mat-nav-list>
+        <a mat-list-item routerLink="">Home</a>
+        <a mat-list-item routerLink="/register">Register</a>
+        <a mat-list-item routerLink="/menu">Menu</a>
+        <a mat-list-item >CRM</a>
+        <a mat-list-item >Reporting</a>
+        <a mat-list-item >Employees</a>
+
+        <mat-accordion>
+          <mat-expansion-panel id='noShadow'>
+
+            <mat-expansion-panel-header class='exp-header'>
+              <mat-panel-title class='equalizer'>
+                Settings
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+        
+            <a mat-list-item routerLink="/settings/item">Item Settings</a>
+
+          </mat-expansion-panel>
+        </mat-accordion>
+          
+      </mat-nav-list>
   </mat-sidenav>
   
     <mat-sidenav-content>
       <p><button mat-button (click)="sidenav.toggle()">{{title}}</button></p>
       <router-outlet></router-outlet>
     </mat-sidenav-content>
+
 </mat-sidenav-container>

@@ -10,6 +10,10 @@
  /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {  }
 
+*{
+  font-family: Roboto;
+}
+
 body{
   background-color:lightblue;
 }
@@ -93,3 +97,8 @@ body{
 .listItem:hover{
   background-color: lightskyblue;
 }
+
+#profile-picture{
+  border-radius: 50%;
+}
+

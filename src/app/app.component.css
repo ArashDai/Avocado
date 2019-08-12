@@ -1,8 +1,43 @@
-.example-container {
+.sidebar-container {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-  }
+}
   
+#profile-picture {
+  display: block;
+  width: 8rem;
+  margin: 0 auto;
+}
+
+#user div p, button {
+  display: inline-block;
+}
+
+.right-btn {
+  position: relative;
+  right: 1px;
+}
+
+#user div p {
+  margin: 0 5rem 0 0;
+}
+
+#username {
+  padding-left: .7rem;
+}
+
+#noShadow {
+  box-shadow: none;
+}
+
+.equalizer {
+  font-size: 16px;
+}
+
+.exp-header {
+  padding: 0 .7rem;
+  /* padding-left: .7rem; */
+}

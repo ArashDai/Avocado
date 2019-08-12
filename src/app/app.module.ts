@@ -17,8 +17,11 @@ import { CashCheckoutComponent } from './shared/dialog/ticket-dialog/checkout-di
 import { CreditCheckoutComponent } from './shared/dialog/ticket-dialog/checkout-dialog/credit-checkout/credit-checkout.component';
 
 
+
 import {
+  MatExpansionModule,
   MatSidenavModule,
+  MatListModule,
   MatInputModule,
   MatDialogModule,
   MatPaginatorModule,
@@ -57,7 +60,9 @@ import {
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    MatExpansionModule,
     MatSidenavModule,
+    MatListModule,
     MatInputModule,
     MatDialogModule,
     MatTableModule,
@@ -86,7 +91,9 @@ import {
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    MatExpansionModule,
     MatSidenavModule,
+    MatListModule,
     MatInputModule,
     MatDialogModule,
     MatTableModule,
