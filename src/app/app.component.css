@@ -29,15 +29,18 @@
   padding-left: .7rem;
 }
 
-#noShadow {
-  box-shadow: none;
-}
-
-.equalizer {
+.node-name {
   font-size: 16px;
+  padding: 0 .7rem;
 }
 
-.exp-header {
-  padding: 0 .7rem;
-  /* padding-left: .7rem; */
+.tree-invisible {
+  display: none;
+}
+
+.tree ul,
+.tree li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
 }

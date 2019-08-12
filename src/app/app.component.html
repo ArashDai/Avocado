@@ -17,33 +17,48 @@
 
       <!-- Navigation -->
       <mat-nav-list>
-        <a mat-list-item routerLink="">Home</a>
-        <a mat-list-item routerLink="/register">Register</a>
-        <a mat-list-item routerLink="/menu">Menu</a>
-        <a mat-list-item >CRM</a>
-        <a mat-list-item >Reporting</a>
-        <a mat-list-item >Employees</a>
+          <a mat-list-item routerLink="">Home</a>
+          <a mat-list-item routerLink="/register">Register</a>
+          <a mat-list-item routerLink="/menu">Menu</a>
+          <a mat-list-item >CRM</a>
+          <a mat-list-item >Reporting</a>
+          <a mat-list-item >Employees</a>
+            
 
-        <mat-accordion>
-          <mat-expansion-panel id='noShadow'>
-
-            <mat-expansion-panel-header class='exp-header'>
-              <mat-panel-title class='equalizer'>
-                Settings
-              </mat-panel-title>
-            </mat-expansion-panel-header>
+        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree">
+          <!-- This is the tree node template for leaf nodes -->
+          <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+            <li class="mat-tree-node">
         
-            <a mat-list-item routerLink="/settings/item">Item Settings</a>
+              <div *ngIf="!node.children">
+                <span routerLink={{node.route}}>{{ node.name }}</span>
+              </div>
+            </li>
+          </mat-tree-node>
+          <!-- This is the tree node template for expandable nodes -->
+          <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodeToggle>
+            <li>
+              <div class="mat-tree-node">
 
-          </mat-expansion-panel>
-        </mat-accordion>
-          
+                <span class='node-name'>{{node.name}}</span>
+                <button mat-icon-button [attr.aria-label]="'toggle ' + node.name">
+                  <mat-icon class="mat-icon-rtl-mirror">
+                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                  </mat-icon>
+                </button>
+              </div>
+              <ul [class.tree-invisible]="!treeControl.isExpanded(node)">
+                <ng-container matTreeNodeOutlet></ng-container>
+              </ul>
+            </li>
+          </mat-nested-tree-node>
+        </mat-tree>
       </mat-nav-list>
   </mat-sidenav>
   
-    <mat-sidenav-content>
-      <p><button mat-button (click)="sidenav.toggle()">{{title}}</button></p>
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
+  <mat-sidenav-content>
+    <p><button mat-button (click)="sidenav.toggle()">{{title}}</button></p>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
 
 </mat-sidenav-container>

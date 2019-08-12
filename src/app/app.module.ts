@@ -19,7 +19,7 @@ import { CreditCheckoutComponent } from './shared/dialog/ticket-dialog/checkout-
 
 
 import {
-  MatExpansionModule,
+  MatTreeModule,
   MatSidenavModule,
   MatListModule,
   MatInputModule,
@@ -60,7 +60,7 @@ import {
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    MatExpansionModule,
+    MatTreeModule,
     MatSidenavModule,
     MatListModule,
     MatInputModule,
@@ -91,7 +91,7 @@ import {
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    MatExpansionModule,
+    MatTreeModule,
     MatSidenavModule,
     MatListModule,
     MatInputModule,
