@@ -2,22 +2,26 @@
     display:flex;
     flex-wrap:wrap;
     flex-direction: row;
-    border: 3px solid slateblue;
+    /* border: 1px solid slateblue; */
+    background-color: #d6e4f0;
     height: fit-content;
 }
 
 #ticket-wrapper{
     align-content: flex-start;
-    border:2px solid lightseagreen;
-    overflow: auto; /*this is new*/
+    /* border:2px solid lightseagreen; */
+    overflow: auto;
     height:57vh;
+    width: 100%;
 }
 
 #totals{
+    justify-content: space-evenly;
+    display: flex;
     flex:1 100%;
     flex-direction: row;
     align-self: flex-end;
-    border:2px solid brown;
+    /* border:2px solid brown; */
 }
 
 #ticket-select{
@@ -26,7 +30,7 @@
     align-self: flex-end;
     flex-direction: row;
     flex-wrap: wrap;
-    border:2px solid limegreen;
+    /* border:2px solid limegreen; */
 }
 
 #ticket-select div div{
@@ -58,4 +62,47 @@
     width:6em;
     height:3em;
 }
+
+#ticket-header {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+}
+
+#ticket-header h3 {
+    margin: .4rem 0;
+}
   
+#ticket-header button {
+    margin-left:auto;
+}
+
+.ticket-tile{
+    border:1px solid black;
+    padding: 0;
+    max-width: 2.7em;
+    max-height: 2.7em;
+    min-height: 2.7em;
+    min-width: 2.7em;
+}
+
+.ticket-item{
+    margin-top: .2rem;
+}
+
+.ticket-item-header{
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+}
+
+.ticket-item-header button{
+    margin-left:auto;
+}
+
+.ticket-item-contents {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    flex-wrap: nowrap;
+}

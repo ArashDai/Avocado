@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "^7.2.14",
     "@angular/platform-server": "^7.2.14",
     "@angular/router": "^7.2.14",
+    "@iconscout/unicons": "^1.0.1",
     "body-parser": "^1.19.0",
     "core-js": "^2.6.5",
     "express": "^4.16.4",

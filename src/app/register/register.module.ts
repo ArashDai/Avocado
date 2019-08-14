@@ -7,12 +7,17 @@ import { MenuItemSelectorComponent } from './register-main/menu-item-selector/me
 import { RegisterTicketComponent } from './register-main/register-ticket/register-ticket.component';
 import { DialogQuestionService } from '../shared/dialog/dialog-question.service';
 
-
+import {
+  MatCardModule,
+  MatButtonModule
+ } from "@angular/material";
 
 @NgModule({
   imports: [
     CommonModule,
-    RegisterRoutingModule
+    RegisterRoutingModule,
+    MatButtonModule,
+    MatCardModule
   ],
   declarations: [
     RegisterMainComponent,
