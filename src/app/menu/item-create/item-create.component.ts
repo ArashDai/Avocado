@@ -61,19 +61,19 @@ export class ItemCreateComponent implements OnInit {
   id = this.route.snapshot.params['id'];
   formData:any;
 
-  @ViewChild('modifierInput')  modifierInput:  ElementRef<HTMLInputElement>;
-  @ViewChild('optionInput')    optionInput:    ElementRef<HTMLInputElement>;
-  @ViewChild('categoryInput')  categoryInput:  ElementRef<HTMLInputElement>;
-  @ViewChild('taxInput')       taxInput:       ElementRef<HTMLInputElement>;
-  @ViewChild('componentInput') componentInput: ElementRef<HTMLInputElement>;
-  @ViewChild('typeInput')      typeInput:      ElementRef<HTMLInputElement>;
+  @ViewChild('modifierInput', { static: true })  modifierInput:  ElementRef<HTMLInputElement>;
+  @ViewChild('optionInput', { static: true })    optionInput:    ElementRef<HTMLInputElement>;
+  @ViewChild('categoryInput', { static: true })  categoryInput:  ElementRef<HTMLInputElement>;
+  @ViewChild('taxInput', { static: true })       taxInput:       ElementRef<HTMLInputElement>;
+  @ViewChild('componentInput', { static: true }) componentInput: ElementRef<HTMLInputElement>;
+  @ViewChild('typeInput', { static: true })      typeInput:      ElementRef<HTMLInputElement>;
 
-  @ViewChild('autoModifier')  autoModifier:  MatAutocomplete;
-  @ViewChild('autoOption')    autoOption:    MatAutocomplete;
-  @ViewChild('autoCategory')  autoCategory:  MatAutocomplete;
-  @ViewChild('autoTax')       autoTax:       MatAutocomplete;
-  @ViewChild('autoComponent') autoComponent: MatAutocomplete;
-  @ViewChild('autoType')      autoType:      MatAutocomplete;
+  @ViewChild('autoModifier', { static: true })  autoModifier:  MatAutocomplete;
+  @ViewChild('autoOption', { static: true })    autoOption:    MatAutocomplete;
+  @ViewChild('autoCategory', { static: true })  autoCategory:  MatAutocomplete;
+  @ViewChild('autoTax', { static: true })       autoTax:       MatAutocomplete;
+  @ViewChild('autoComponent', { static: true }) autoComponent: MatAutocomplete;
+  @ViewChild('autoType', { static: true })      autoType:      MatAutocomplete;
 
   constructor(
     public service: DialogQuestionService,

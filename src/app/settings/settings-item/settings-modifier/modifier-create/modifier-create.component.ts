@@ -35,9 +35,9 @@ export class ModifierCreateComponent implements OnInit {
   pageType = 'Create';
   id = this.route.snapshot.params['id'];
 
-  @ViewChild('categoryInput')  categoryInput:  ElementRef<HTMLInputElement>;
+  @ViewChild('categoryInput', { static: true })  categoryInput:  ElementRef<HTMLInputElement>;
 
-  @ViewChild('autoCategory')  autoCategory:  MatAutocomplete;
+  @ViewChild('autoCategory', { static: true })  autoCategory:  MatAutocomplete;
 
   constructor(
     private priceFormatter: PriceFormatterService,

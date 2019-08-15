@@ -35,8 +35,8 @@ export class OptionCreateComponent implements OnInit {
   pageType = 'Create';
   id = this.route.snapshot.params['id'];
 
-  @ViewChild('categoryInput')  categoryInput:  ElementRef<HTMLInputElement>;
-  @ViewChild('autoCategory')  autoCategory:  MatAutocomplete;
+  @ViewChild('categoryInput', { static: true })  categoryInput:  ElementRef<HTMLInputElement>;
+  @ViewChild('autoCategory', { static: true })  autoCategory:  MatAutocomplete;
 
   constructor(
     private priceFormatter: PriceFormatterService,

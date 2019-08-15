@@ -20,7 +20,7 @@ export interface DialogData {
 
 export class DialogComponent implements OnInit {
 
-  @ViewChild('target', { read: ViewContainerRef }) vcRef: ViewContainerRef;
+  @ViewChild('target', { read: ViewContainerRef, static: true }) vcRef: ViewContainerRef;
 
   componentRef: ComponentRef<any>;
 

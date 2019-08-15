@@ -41,11 +41,11 @@ export class ComponentCreateComponent implements OnInit {
   pageType = 'Create';
   id = this.route.snapshot.params['id'];
 
-  @ViewChild('optionInput')    optionInput:    ElementRef<HTMLInputElement>;
-  @ViewChild('categoryInput')  categoryInput:  ElementRef<HTMLInputElement>;
+  @ViewChild('optionInput', { static: true })    optionInput:    ElementRef<HTMLInputElement>;
+  @ViewChild('categoryInput', { static: true })  categoryInput:  ElementRef<HTMLInputElement>;
 
-  @ViewChild('autoOption')    autoOption:    MatAutocomplete;
-  @ViewChild('autoCategory')  autoCategory:  MatAutocomplete;
+  @ViewChild('autoOption', { static: true })    autoOption:    MatAutocomplete;
+  @ViewChild('autoCategory', { static: true })  autoCategory:  MatAutocomplete;
 
   constructor(
     private router: Router,
