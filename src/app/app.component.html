@@ -1,8 +1,5 @@
 <mat-sidenav-container class="sidebar-container" >
   <mat-sidenav #sidenav [mode]="over">
-
-      <!-- <button mat-button (click)="sidenav.toggle()" class='right-btn'>close</button> -->
-
       <!-- User -->
       <div id="user">
         <!-- profile picture link to employee profile -->
@@ -17,12 +14,12 @@
 
       <!-- Navigation -->
       <mat-nav-list>
-          <a mat-list-item routerLink="">Home</a>
-          <a mat-list-item routerLink="/register">Register</a>
-          <a mat-list-item routerLink="/menu">Menu</a>
-          <a mat-list-item >CRM</a>
-          <a mat-list-item >Reporting</a>
-          <a mat-list-item >Employees</a>
+          <a mat-list-item (click)="setModule('Home')" routerLink="">Home</a>
+          <a mat-list-item (click)="setModule('Register')" routerLink="/register">Register</a>
+          <a mat-list-item (click)="setModule('Menu')" routerLink="/menu">Menu</a>
+          <a mat-list-item (click)="setModule('CRM')" >CRM</a>
+          <a mat-list-item (click)="setModule('Reporting')" >Reporting</a>
+          <a mat-list-item (click)="setModule('Employees')" >Employees</a>
             
 
         <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree">
@@ -31,7 +28,7 @@
             <li class="mat-tree-node">
         
               <div *ngIf="!node.children">
-                <span routerLink={{node.route}}>{{ node.name }}</span>
+                <span (click)="setModule(node.name)" routerLink={{node.route}}>{{ node.name }}</span>
               </div>
             </li>
           </mat-tree-node>
@@ -57,7 +54,11 @@
   </mat-sidenav>
   
   <mat-sidenav-content>
-    <button mat-button (click)="sidenav.toggle()">{{title}}</button>
+    <mat-toolbar color="primary" id="navbar">
+      <h3 (click)="sidenav.toggle()">{{title}}</h3>
+      <h4>{{module}}</h4>
+      <span></span>
+    </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 

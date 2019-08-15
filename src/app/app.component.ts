@@ -1,6 +1,7 @@
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {Component} from '@angular/core';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
+import { Router } from '@angular/router';
 
 interface NavNode {
   name: string;
@@ -36,12 +37,17 @@ const TREE_DATA: NavNode[] = [
 
 export class AppComponent {
   title = 'Avocado';
+  module;
 
   treeControl = new NestedTreeControl<NavNode>(node => node.children);
   dataSource = new MatTreeNestedDataSource<NavNode>();
 
-  constructor() {
+  constructor(private router: Router) {
     this.dataSource.data = TREE_DATA;
+  }
+
+  setModule(mod){
+    this.module = mod;
   }
 
   hasChild = (_: number, node: NavNode) => !!node.children && node.children.length > 0;

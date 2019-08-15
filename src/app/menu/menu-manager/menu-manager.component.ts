@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../api.service';
 import { DataSource } from '@angular/cdk/collections';
+import {MatSort} from '@angular/material/sort';
 import { Observable } from 'rxjs';
 import { CdkTableModule} from '@angular/cdk/table';//probably dont need this
 
@@ -18,6 +19,7 @@ export class MenuManagerComponent implements OnInit {
   dataSource = new ItemDataSource(this.api);
 
   constructor(private api: ApiService) { }
+  
 
   
   ngOnInit() {
