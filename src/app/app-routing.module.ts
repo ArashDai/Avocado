@@ -5,15 +5,15 @@ import { HomeComponent } from './home/home.component';
 const routes: Routes = [
   {
     path: 'menu',
-    loadChildren: './menu/menu.module#MenuModule'
+    loadChildren: () => import('./menu/menu.module').then(m => m.MenuModule)
   },
   {
     path: 'register',
-    loadChildren: './register/register.module#RegisterModule'
+    loadChildren: () => import('./register/register.module').then(m => m.RegisterModule)
   },
   {
     path: 'settings',
-    loadChildren: './settings/settings.module#SettingsModule'
+    loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)
   },
   {
     path:'home',

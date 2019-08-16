@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../api.service';
-import { DataSource } from '@angular/cdk/collections';
-import {MatSort} from '@angular/material/sort';
-import { Observable } from 'rxjs';
-import { CdkTableModule} from '@angular/cdk/table';//probably dont need this
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 
 @Component({
@@ -14,36 +12,22 @@ import { CdkTableModule} from '@angular/cdk/table';//probably dont need this
 
 export class MenuManagerComponent implements OnInit {
 
-  items:any;
-  displayedColumns = ['name', 'price', 'taxes', 'categories', 'modifiers', 'components', 'options', 'description'];
-  dataSource = new ItemDataSource(this.api);
+  displayedColumns: string[] = ['name', 'price', 'taxes', 'categories', 'modifiers', 'components', 'options', 'description'];
+  dataSource = new MatTableDataSource();
+
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(private api: ApiService) { }
   
-
-  
   ngOnInit() {
     this.api.getAll('Item')
-      .subscribe(res => {
-        console.log(res);
-        this.items = res;
-      }, err => {
-        console.log(err);
-      });
-  }
-  
-}
-
-export class ItemDataSource extends DataSource<any> {
-  constructor(private api: ApiService) {
-    super()
+    .subscribe(res => {
+      console.log(res);
+      this.dataSource = new MatTableDataSource(res);
+      this.dataSource.sort = this.sort;
+    }, err => {
+      console.log(err);
+    });
   }
 
-  connect() {
-    return this.api.getAll('Item');
-  }
-
-  disconnect() {
-
-  }
 }
