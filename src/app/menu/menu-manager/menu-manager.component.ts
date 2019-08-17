@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../api.service';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { CurrencyPipe } from '@angular/common';
 
 
 @Component({
@@ -17,7 +18,10 @@ export class MenuManagerComponent implements OnInit {
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private api: ApiService) { }
+  constructor(
+    private api: ApiService,
+    private cp: CurrencyPipe
+  ) { }
   
   ngOnInit() {
     this.api.getAll('Item')

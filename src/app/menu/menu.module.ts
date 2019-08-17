@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 
 import { DialogComponent } from '../shared/dialog/dialog.component';
 import { MenuRoutingModule } from './menu-routing.module';
@@ -44,6 +44,7 @@ import { ItemDetailsComponent } from './item-details/item-details.component';
     MatAutocompleteModule,
     MatFormFieldModule,
   ],
-  declarations: [MenuManagerComponent, ItemCreateComponent, ItemDetailsComponent]
+  declarations: [MenuManagerComponent, ItemCreateComponent, ItemDetailsComponent],
+  providers: [CurrencyPipe]
 })
 export class MenuModule { }
