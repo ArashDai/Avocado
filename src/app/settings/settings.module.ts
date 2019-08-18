@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { SettingsRoutingModule } from './settings-routing.module';
@@ -96,6 +96,7 @@ import {
     SubtypeCreateComponent,
     SubtypeDetailsComponent,
     SubtypeManagerComponent,
-  ]
+  ],
+  providers:[CurrencyPipe]
 })
 export class SettingsModule { }

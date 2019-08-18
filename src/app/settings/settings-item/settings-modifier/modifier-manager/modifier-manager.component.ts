@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../../../api.service';
-import { DataSource } from '@angular/cdk/collections';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-modifier-manager',
@@ -10,33 +12,25 @@ import { DataSource } from '@angular/cdk/collections';
 
 export class ModifierManagerComponent implements OnInit {
 
-  modifiers:any;
   displayedColumns = ['name','description','categories','fee','additions','removals'];
-  dataSource = new ModifierDataSource(this.api);
+  dataSource = new MatTableDataSource();
 
-  constructor(private api: ApiService) { }
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+
+  constructor(
+    private api: ApiService,
+    private cp: CurrencyPipe
+    ) { }
 
   ngOnInit() {
     
     this.api.getAll('Modifier')
     .subscribe(res => {
-      this.modifiers = res;
+      console.log(res);
+      this.dataSource = new MatTableDataSource(res);
+      this.dataSource.sort = this.sort;
     }, err => {
       console.log(err);
     });
-  }
-}
-
-export class ModifierDataSource extends DataSource<any> {
-  constructor(private api: ApiService) {
-    super()
-  }
-
-  connect() {
-    return this.api.getAll('Modifier');
-  }
-
-  disconnect() {
-
   }
 }

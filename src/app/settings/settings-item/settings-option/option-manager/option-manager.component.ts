@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../../../api.service';
-import { DataSource } from '@angular/cdk/collections';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-option-manager',
@@ -10,34 +12,24 @@ import { DataSource } from '@angular/cdk/collections';
 
 export class OptionManagerComponent implements OnInit {
 
-  options:any;
   displayedColumns = ['name', 'type', 'fee'];
-  dataSource = new OptionDataSource(this.api);
+  dataSource = new MatTableDataSource();
 
-  constructor(private api: ApiService) { }
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+
+  constructor(
+    private api: ApiService,
+    private cp: CurrencyPipe
+  ) { }
 
   ngOnInit() {
     this.api.getAll('Option')
     .subscribe(res => {
       console.log(res);
-      this.options = res;
+      this.dataSource = new MatTableDataSource(res);
+      this.dataSource.sort = this.sort;
     }, err => {
       console.log(err);
     });
-  }
-}
-
-export class OptionDataSource extends DataSource<any> {
-  constructor(private api: ApiService) {
-    super()
-  }
-
-  connect() {
-    console.log('hello Option')
-    return this.api.getAll('Option');
-  }
-
-  disconnect() {
-
   }
 }

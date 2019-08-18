@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../../../api.service';
-import { DataSource } from '@angular/cdk/collections';
+import { MatSort} from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-subtype-manager',
@@ -10,9 +11,10 @@ import { DataSource } from '@angular/cdk/collections';
 
 export class SubtypeManagerComponent implements OnInit {
 
-  subtypes:any;
   displayedColumns = ['name', 'description', 'parentType'];
-  dataSource = new SubtypeDataSource(this.api);
+  dataSource = new MatTableDataSource();
+
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(private api: ApiService) { }
 
@@ -20,25 +22,11 @@ export class SubtypeManagerComponent implements OnInit {
     this.api.getAll('Subtype')
     .subscribe(res => {
       console.log(res);
-      this.subtypes = res;
+      this.dataSource = new MatTableDataSource(res);
+      this.dataSource.sort = this.sort;
     }, err => {
       console.log(err);
     });
   }
 
-}
-
-export class SubtypeDataSource extends DataSource<any> {
-    constructor(private api: ApiService) {
-      super()
-    }
-  
-    connect() {
-      console.log('hello subType')
-      return this.api.getAll('Subtype');
-    }
-  
-    disconnect() {
-  
-    }
 }

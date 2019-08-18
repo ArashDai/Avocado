@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../../../api.service';
-import { DataSource } from '@angular/cdk/collections';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-component-manager',
@@ -11,7 +12,9 @@ export class ComponentManagerComponent implements OnInit {
 
     components:any;
     displayedColumns = ['name','type', 'categories', 'options'];
-    dataSource = new OptionDataSource(this.api);
+    dataSource = new MatTableDataSource();
+
+    @ViewChild(MatSort, {static: true}) sort: MatSort;
   
     constructor(private api: ApiService) { }
   
@@ -19,24 +22,11 @@ export class ComponentManagerComponent implements OnInit {
       this.api.getAll('Component')
       .subscribe(res => {
         console.log(res);
-        this.components = res;
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.sort = this.sort;
       }, err => {
         console.log(err);
       });
     }
   
-  }
-  
-  export class OptionDataSource extends DataSource<any> {
-    constructor(private api: ApiService) {
-      super()
-    }
-  
-    connect() {
-      return this.api.getAll('Component');
-    }
-  
-    disconnect() {
-  
-    }
   }

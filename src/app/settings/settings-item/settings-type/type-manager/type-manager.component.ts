@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../../../api.service';
-import { DataSource } from '@angular/cdk/collections';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-type-manager',
@@ -9,9 +10,10 @@ import { DataSource } from '@angular/cdk/collections';
 })
 export class TypeManagerComponent implements OnInit {
 
-  types:any;
   displayedColumns = ['name', 'description'];
-  dataSource = new TypeDataSource(this.api);
+  dataSource = new MatTableDataSource();
+
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(private api: ApiService) { }
 
@@ -19,26 +21,11 @@ export class TypeManagerComponent implements OnInit {
     this.api.getAll('Type')
     .subscribe(res => {
       console.log(res);
-      this.types = res;
+      this.dataSource = new MatTableDataSource(res);
+      this.dataSource.sort = this.sort;
     }, err => {
       console.log(err);
     });
   }
 
 }
-
-export class TypeDataSource extends DataSource<any> {
-    constructor(private api: ApiService) {
-      super()
-    }
-  
-    connect() {
-      console.log('hello Type')
-      return this.api.getAll('Type');
-    }
-  
-    disconnect() {
-  
-    }
-}
-
