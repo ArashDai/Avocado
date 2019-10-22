@@ -15,7 +15,7 @@ import { CheckoutDialogComponent } from './shared/dialog/ticket-dialog/checkout-
 import { PortalModule } from '@angular/cdk/portal';
 import { CashCheckoutComponent } from './shared/dialog/ticket-dialog/checkout-dialog/cash-checkout/cash-checkout.component';
 import { CreditCheckoutComponent } from './shared/dialog/ticket-dialog/checkout-dialog/credit-checkout/credit-checkout.component';
-
+import { PaymentMethodComponent } from './shared/dialog/ticket-dialog/checkout-dialog/payment-method.component';
 
 
 import {
@@ -26,6 +26,7 @@ import {
   MatDialogModule,
   MatPaginatorModule,
   MatProgressSpinnerModule,
+  MatCheckboxModule,
   MatSortModule,
   MatTableModule,
   MatIconModule,
@@ -36,7 +37,9 @@ import {
   MatToolbarModule,
   MatChipsModule,
   MatAutocompleteModule,
-  MatFormFieldModule } from "@angular/material";
+  MatFormFieldModule
+} from "@angular/material";
+
 
 
 
@@ -49,7 +52,8 @@ import {
     DynamicFormComponent,
     CheckoutDialogComponent,
     CashCheckoutComponent,
-    CreditCheckoutComponent
+    CreditCheckoutComponent,
+    PaymentMethodComponent
   ],
   imports: [
     PortalModule,
@@ -67,6 +71,7 @@ import {
     MatDialogModule,
     MatTableModule,
     MatPaginatorModule,
+    MatCheckboxModule,
     MatSortModule,
     MatProgressSpinnerModule,
     MatIconModule,
@@ -79,11 +84,12 @@ import {
     MatChipsModule,
     MatFormFieldModule,
   ],
-  exports:[
+  exports: [
     DynamicFormComponent,
     CheckoutDialogComponent,
     CashCheckoutComponent,
     CreditCheckoutComponent,
+    PaymentMethodComponent,
     CommonModule,
     BrowserModule,
     FormsModule,
@@ -98,6 +104,7 @@ import {
     MatDialogModule,
     MatTableModule,
     MatPaginatorModule,
+    MatCheckboxModule,
     MatSortModule,
     MatProgressSpinnerModule,
     MatIconModule,
@@ -113,11 +120,9 @@ import {
   entryComponents: [
     DialogComponent,
     DynamicFormComponent,
-    CheckoutDialogComponent,
-    CashCheckoutComponent,
-    CreditCheckoutComponent
+    CheckoutDialogComponent
   ],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

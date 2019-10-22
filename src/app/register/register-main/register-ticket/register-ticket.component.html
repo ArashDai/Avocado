@@ -1,29 +1,31 @@
 <div id='register-ticket'>
   <div id="ticket-wrapper">
     <mat-card id='ticket-header'>
-      <h3> Ticket #: {{this.activeTicket+1}}</h3> <button mat-fab color="warn" (click)="deleteTicket()">Delete</button>
+      <h3> Ticket #: {{this.ticketsData.activeTicket+1}}</h3> <button mat-fab color="warn"
+        (click)="deleteTicket()">Delete</button>
     </mat-card>
 
-    <div *ngFor="let item of ticketsData.tickets[this.activeTicket]; index as i ">
-        <mat-card class="ticket-item">
-          <span class="ticket-item-header">
-              {{item.name}} 
-              <button mat-flat-button (click)="deleteItem(i)">delete</button>
-          </span>
-          <div class="ticket-item-contents">
-            <span>{{item.amount?.length > 0 ? "Amount: "+item.amount : null}}</span>
-            <span>{{item.options?.length > 0 ? "Options: "+item.options : null}}</span>
-            <span>{{item.modifiers?.length > 0 ? "Modifiers: "+item.modifiers : null}}</span>
-            <span>Total: {{item.total /100 | currency}}</span>
-          </div>
-        </mat-card>
+    <div *ngFor="let item of ticketsData?.tickets[this.ticketsData.activeTicket]; index as i ">
+      <mat-card class="ticket-item">
+        <span class="ticket-item-header">
+          {{item.name}}
+          <button mat-flat-button (click)="deleteItem(i)">delete</button>
+        </span>
+        <div class="ticket-item-contents">
+          <span>{{item.amount?.length > 0 ? "Amount: "+item.amount : null}}</span>
+          <span>{{item.options?.length > 0 ? "Options: "+item.options : null}}</span>
+          <span>{{item.modifiers?.length > 0 ? "Modifiers: "+item.modifiers : null}}</span>
+          <span>Total: {{item.total /100 | currency}}</span>
+          <span>{{item.balanceDue > 0 ? "Status: unpaid" : "Status: paid"}}</span>
+        </div>
+      </mat-card>
     </div>
   </div>
 
   <mat-card id='totals'>
-   <span> Subtotal: {{this.ticketsData.totals[activeTicket]['subtotal'] / 100 | currency }} </span> 
-   <span> Tax: {{this.ticketsData.totals[activeTicket]['tax'] / 100 | currency }} </span> 
-   <span> Total: {{this.ticketsData.totals[activeTicket]['total'] / 100 | currency }} </span> 
+    <span> Subtotal: {{this.ticketsData?.totals[ticketsData.activeTicket]['subtotal'] / 100 | currency }} </span>
+    <span> Tax: {{this.ticketsData?.totals[ticketsData.activeTicket]['tax'] / 100 | currency }} </span>
+    <span> Total: {{this.ticketsData?.totals[ticketsData.activeTicket]['total'] / 100 | currency }} </span>
   </mat-card>
 
   <div id="ticket-select">
@@ -36,7 +38,7 @@
 
   <div id="ticket-control">
     <div>Split Ticket</div>
-    <div (click)="checkout()" >Checkout</div>
+    <div (click)="checkout()">Checkout</div>
     <div>Combine Tickets</div>
     <div>Discounts</div>
     <div>Customer Loyalty</div>

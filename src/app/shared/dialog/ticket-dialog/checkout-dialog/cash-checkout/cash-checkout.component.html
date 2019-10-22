@@ -1,8 +1,100 @@
 <div>
-    cash checkout component
+  <div *ngIf="this.step === 'selection'">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-    <h1>Amount Due: $10.00</h1>
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
 
-    <h1>Cash Tendered:</h1>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="balanceDue">
+        <th mat-header-cell *matHeaderCellDef> Balance </th>
+        <td mat-cell *matCellDef="let element"> {{element.balanceDue}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+      </tr>
+    </table>
+
+    <button mat-raised-button color="primary" (click)="checkout()"> select </button>
+  </div>
+
+
+  <div *ngIf="this.step === 'payment'">
+    <button mat-raised-button color="primary" (click)="changeStep('selection')">back</button>
+
+    <h4>Amount Due: {{this.selectedTotal / 100 | currency}}</h4>
+    <h4>Cash Tendered: </h4>
+    <form class="form">
+      <mat-form-field>
+        <input matInput type="number" placeholder="cash tendered" (click)="clear()" (change)="formatInput()" value="$0"
+          [formControl]='cashTendered'>
+      </mat-form-field>
+      <div class="form-row">
+        <button mat-raised-button color="primary" (click)="submitPayment(); clear()"> Submit</button>
+      </div>
+    </form>
+
+  </div>
+
+  <div *ngIf="this.step === 'change'">
+    <!-- <button mat-raised-button color='primary' (click)="changeStep('payment')" >back</button> -->
+    calculate change
+    <!-- later this will show you what denominations to dispense but for now just shows change amount -->
+
+    <h4> Change Due: {{this.transaction.changeDue / 100 | currency}}</h4>
+
+    <button mat-raised-button color="primary" (click)="checkUnpaidItems()">Next</button>
+  </div>
+
+  <div *ngIf="this.step === 'reciept'">
+    <!-- if the dialog is closed here then we can delete the ticket from the ticketService and ticket component -->
+    <button mat-raised-button color="primary">print</button>
+    <button mat-raised-button color="primary">email</button>
+    <button mat-raised-button color="primary" (click)="completeTransaction()" [mat-dialog-close]="true">close</button>
+    <div id="reciept-header">
+      COMPANY LOGO
+      COMPANY NAME
+      COMPANY PHONE
+      COMPANY ADDRESS
+      your cashier was: Bob
+      5:00pm 9/21/2021
+      transaction: 123894149294
+      Order type: Dine in
+    </div>
+    <div class='reciept-ticket-items' *ngFor="let item of ticketItems">
+      <span>{{item.name}}</span>
+      <span>{{item.timeStamp}}</span>
+      <span>{{item.amount?.length > 0 ? "Amount: "+item.amount : null}}</span>
+      <span>{{item.options?.length > 0 ? "Options: "+item.options : null}}</span>
+      <span>{{item.modifiers?.length > 0 ? "Modifiers: "+item.modifiers : null}}</span>
+      <span>Total: {{item.total /100 | currency}}</span>
+    </div>
+    <div id="reciept-totals">
+
+    </div>
+    <div id="reciept-loyalty">
+      Customer Loyalty:
+      you have earned 120 points! Greg
+    </div>
+
+  </div>
 
 </div>

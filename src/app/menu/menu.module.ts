@@ -6,6 +6,7 @@ import { MenuRoutingModule } from './menu-routing.module';
 import { MenuManagerComponent } from './menu-manager/menu-manager.component';
 import { ItemCreateComponent } from './item-create/item-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ItemDetailsComponent } from './item-details/item-details.component';
 
 
 import {
@@ -21,8 +22,9 @@ import {
   MatSelectModule,
   MatChipsModule,
   MatAutocompleteModule,
-  MatFormFieldModule } from "@angular/material";
-import { ItemDetailsComponent } from './item-details/item-details.component';
+  MatFormFieldModule
+} from "@angular/material";
+
 
 
 @NgModule({

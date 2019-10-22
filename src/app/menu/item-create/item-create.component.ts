@@ -4,9 +4,9 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ApiService } from '../../api.service';
 import { forkJoin, Observable } from 'rxjs';
 import { map, startWith, filter } from 'rxjs/operators';
-import {  MatChipsModule, MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from '@angular/material';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatChipsModule, MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from '@angular/material';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
 import { DialogQuestionService } from '../../shared/dialog/dialog-question.service';
 import { PriceFormatterService } from 'src/app/shared/price-formatter.service';
@@ -15,65 +15,65 @@ import { PriceFormatterService } from 'src/app/shared/price-formatter.service';
   selector: 'app-item-create',
   templateUrl: './item-create.component.html',
   styleUrls: ['./item-create.component.css'],
-  providers:[DialogQuestionService]
+  providers: [DialogQuestionService]
 })
 
 export class ItemCreateComponent implements OnInit {
 
-  visible     = true;
-  selectable  = true;
-  removable   = true;
-  addOnBlur   = true;
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  
+
   itemCreateForm: FormGroup;
-  
-  modifierCtrl  = new FormControl();
-  optionCtrl    = new FormControl();
-  categoryCtrl  = new FormControl();
-  taxCtrl       = new FormControl();
+
+  modifierCtrl = new FormControl();
+  optionCtrl = new FormControl();
+  categoryCtrl = new FormControl();
+  taxCtrl = new FormControl();
   componentCtrl = new FormControl();
-  typeCtrl      = new FormControl();
-  
-  filteredModifiers:  Observable<string[]>;
-  filteredOptions:    Observable<string[]>;
+  typeCtrl = new FormControl();
+
+  filteredModifiers: Observable<string[]>;
+  filteredOptions: Observable<string[]>;
   filteredCategories: Observable<string[]>;
-  filteredTaxes:      Observable<string[]>;
+  filteredTaxes: Observable<string[]>;
   filteredComponents: Observable<string[]>;
-  filteredTypes:      Observable<string[]>;
+  filteredTypes: Observable<string[]>;
 
-  categoryList:  any[] = [];
-  optionList:    any[] = [];       //string[] = ['White Bread', 'Wheat Bread', 'Extra Mayo', 'Mustard', 'Grilled Onions', 'Toasted'];
-  modifierList:  any[] = [];       //string[] = ['Add Bacon', 'Add Avocado', 'Double Meat', 'Double Cheese'];
-  taxList:       any[] = [];       //string[] = ['Defaut Tax', 'Dine-in Tax', 'Hot Food Tax'];
+  categoryList: any[] = [];
+  optionList: any[] = [];       //string[] = ['White Bread', 'Wheat Bread', 'Extra Mayo', 'Mustard', 'Grilled Onions', 'Toasted'];
+  modifierList: any[] = [];       //string[] = ['Add Bacon', 'Add Avocado', 'Double Meat', 'Double Cheese'];
+  taxList: any[] = [];       //string[] = ['Defaut Tax', 'Dine-in Tax', 'Hot Food Tax'];
   componentList: any[] = [];       //string[] = ['White Bread', 'Wheat Bread', 'Mayo', 'Turkey', 'Ham', 'Lettuce', 'Tomato', 'Onions'];
-  typeList:      any[] = [];       //string[] = ['sandwich', 'soup', 'salad', danish];
+  typeList: any[] = [];       //string[] = ['sandwich', 'soup', 'salad', danish];
 
-  selectedModifiers:  any[] = [];
-  selectedOptions:    any[] = [];
+  selectedModifiers: any[] = [];
+  selectedOptions: any[] = [];
   selectedCategories: any[] = [];
-  selectedTaxes:      any[] = [];
+  selectedTaxes: any[] = [];
   selectedComponents: any[] = [];
-  selectedTypes:      any[] = [];
+  selectedTypes: any[] = [];
 
   pageType = 'Create';
   id = this.route.snapshot.params['id'];
-  formData:any;
+  formData: any;
 
-  @ViewChild('modifierInput', { static: true })  modifierInput:  ElementRef<HTMLInputElement>;
-  @ViewChild('optionInput', { static: true })    optionInput:    ElementRef<HTMLInputElement>;
-  @ViewChild('categoryInput', { static: true })  categoryInput:  ElementRef<HTMLInputElement>;
-  @ViewChild('taxInput', { static: true })       taxInput:       ElementRef<HTMLInputElement>;
+  @ViewChild('modifierInput', { static: true }) modifierInput: ElementRef<HTMLInputElement>;
+  @ViewChild('optionInput', { static: true }) optionInput: ElementRef<HTMLInputElement>;
+  @ViewChild('categoryInput', { static: true }) categoryInput: ElementRef<HTMLInputElement>;
+  @ViewChild('taxInput', { static: true }) taxInput: ElementRef<HTMLInputElement>;
   @ViewChild('componentInput', { static: true }) componentInput: ElementRef<HTMLInputElement>;
-  @ViewChild('typeInput', { static: true })      typeInput:      ElementRef<HTMLInputElement>;
+  @ViewChild('typeInput', { static: true }) typeInput: ElementRef<HTMLInputElement>;
 
-  @ViewChild('autoModifier', { static: true })  autoModifier:  MatAutocomplete;
-  @ViewChild('autoOption', { static: true })    autoOption:    MatAutocomplete;
-  @ViewChild('autoCategory', { static: true })  autoCategory:  MatAutocomplete;
-  @ViewChild('autoTax', { static: true })       autoTax:       MatAutocomplete;
+  @ViewChild('autoModifier', { static: true }) autoModifier: MatAutocomplete;
+  @ViewChild('autoOption', { static: true }) autoOption: MatAutocomplete;
+  @ViewChild('autoCategory', { static: true }) autoCategory: MatAutocomplete;
+  @ViewChild('autoTax', { static: true }) autoTax: MatAutocomplete;
   @ViewChild('autoComponent', { static: true }) autoComponent: MatAutocomplete;
-  @ViewChild('autoType', { static: true })      autoType:      MatAutocomplete;
+  @ViewChild('autoType', { static: true }) autoType: MatAutocomplete;
 
   constructor(
     public service: DialogQuestionService,
@@ -83,58 +83,58 @@ export class ItemCreateComponent implements OnInit {
     private api: ApiService,
     private fb: FormBuilder,
     public dialog: MatDialog
-    ){
+  ) {
 
-    this.filteredModifiers = this.modifierCtrl.valueChanges.pipe( 
+    this.filteredModifiers = this.modifierCtrl.valueChanges.pipe(
       startWith(null),
-      map((modifier: string | null) => modifier ? this._filter(modifier, 'modifierList') : this.modifierList.slice() )
+      map((modifier: string | null) => modifier ? this._filter(modifier, 'modifierList') : this.modifierList.slice())
     );
 
-    this.filteredOptions = this.optionCtrl.valueChanges.pipe( 
+    this.filteredOptions = this.optionCtrl.valueChanges.pipe(
       startWith(null),
-      map((option: string | null) => option ? this._filter(option, 'optionList') : this.optionList.slice() )
+      map((option: string | null) => option ? this._filter(option, 'optionList') : this.optionList.slice())
     );
 
-    this.filteredCategories = this.categoryCtrl.valueChanges.pipe( 
+    this.filteredCategories = this.categoryCtrl.valueChanges.pipe(
       startWith(null),
-      map((category: string | null) => category ? this._filter(category, 'categoryList') : this.categoryList.slice() )
+      map((category: string | null) => category ? this._filter(category, 'categoryList') : this.categoryList.slice())
     );
 
-    this.filteredTaxes = this.taxCtrl.valueChanges.pipe( 
+    this.filteredTaxes = this.taxCtrl.valueChanges.pipe(
       startWith(null),
-      map((tax: string | null) => tax ? this._filter(tax, 'taxList') : this.taxList.slice() )
+      map((tax: string | null) => tax ? this._filter(tax, 'taxList') : this.taxList.slice())
     );
 
-    this.filteredComponents = this.componentCtrl.valueChanges.pipe( 
+    this.filteredComponents = this.componentCtrl.valueChanges.pipe(
       startWith(null),
-      map((component: string | null) => component ? this._filter(component, 'componentList') : this.componentList.slice() )
+      map((component: string | null) => component ? this._filter(component, 'componentList') : this.componentList.slice())
     );
 
     this.filteredTypes = this.typeCtrl.valueChanges.pipe(
       startWith(null),
-      map((type: string | null) => type ? this._filter(type, 'typeList') : this.typeList.slice() )
+      map((type: string | null) => type ? this._filter(type, 'typeList') : this.typeList.slice())
     );
 
     this.createForm();
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.setupForm(this.id);
   }
 
-  createForm(){
+  createForm() {
     let def = {
       name: '',
       categories: [],
-      types:[],
-      price: 0, 
+      types: [],
+      price: 0,
       options: [],
-      components: [], 
+      components: [],
       modifiers: [],
-      removals: [], 
+      removals: [],
       taxes: [],
-      description: '', 
-      author: '', 
+      description: '',
+      author: '',
     }
 
     this.itemCreateForm = this.fb.group(def);
@@ -149,17 +149,17 @@ export class ItemCreateComponent implements OnInit {
       this.api.getAll('Tax'),
       this.api.getAll('Component'),
       this.api.getAll('Type')
-      ).subscribe(([Categories, Modifiers, Options, Taxes, Components, Types]) => { 
-        this.categoryList = Categories.map(c => c.name);
-        this.modifierList = Modifiers.map(c => c.name);
-        this.optionList = Options.map(c => c.name);
-        this.taxList = Taxes.map(c => c.name );
-        this.componentList = Components.map(c => c.name);
-        this.typeList = Types.map(c => c.name ); 
+    ).subscribe(([Categories, Modifiers, Options, Taxes, Components, Types]) => {
+      this.categoryList = Categories.map(c => c.name);
+      this.modifierList = Modifiers.map(c => c.name);
+      this.optionList = Options.map(c => c.name);
+      this.taxList = Taxes.map(c => c.name);
+      this.componentList = Components.map(c => c.name);
+      this.typeList = Types.map(c => c.name);
     });
 
-    if(this.route.snapshot.data.update){
-      this.api.get('Item',id).subscribe( item => {
+    if (this.route.snapshot.data.update) {
+      this.api.get('Item', id).subscribe(item => {
 
         this.selectedModifiers = item.modifiers;
         this.selectedOptions = item.options;
@@ -168,18 +168,17 @@ export class ItemCreateComponent implements OnInit {
         this.selectedComponents = item.components;
         this.selectedTypes = item.types;
 
-        Object.assign(item, {price: this.priceFormatter.formatPriceToBills(item['price'])})
-        console.log('fixed price', item['price'])
+        Object.assign(item, { price: this.priceFormatter.formatPriceToBills(item['price']) })
         this.itemCreateForm.patchValue(item);
       });
-      
+
       this.pageType = 'Update';
     }
   }
 
-  add(event: MatChipInputEvent, ctrl, type): void { 
+  add(event: MatChipInputEvent, ctrl, type): void {
     let autoComplete
-    switch(type){
+    switch (type) {
       case 'modifier':
         autoComplete = this.autoModifier;
         break;
@@ -200,13 +199,13 @@ export class ItemCreateComponent implements OnInit {
         break;
     }
 
-    if(!autoComplete.isOpen){
+    if (!autoComplete.isOpen) {
 
       if (event.input) {
         event.input.value = '';
       }
       this[ctrl].setValue(null);
-    } 
+    }
   }
 
   remove(item: string, type): void {
@@ -218,11 +217,11 @@ export class ItemCreateComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent, selectedItems, inputType, ctrl, field): void {
-    if ( this[selectedItems].indexOf(event.option.viewValue) < 0 ){
+    if (this[selectedItems].indexOf(event.option.viewValue) < 0) {
       this[selectedItems].push(event.option.viewValue);
     }
 
-    this.itemCreateForm.setValue(Object.assign(this.itemCreateForm.value, {[field]: this[selectedItems]}));
+    this.itemCreateForm.setValue(Object.assign(this.itemCreateForm.value, { [field]: this[selectedItems] }));
     this[inputType].nativeElement.value = '';
     this[ctrl].setValue(null);
   }
@@ -241,9 +240,8 @@ export class ItemCreateComponent implements OnInit {
 
     if (this.pageType === 'Create') {
       console.log('Creating', form)
-      this.api.post('Item', form)
+      this.api.post('item', form)
         .subscribe(res => {
-          console.log('resres',res)
           let id = res['_id'];
           this.router.navigate(['menu/details', id]);
         }, (err) => {
@@ -251,9 +249,8 @@ export class ItemCreateComponent implements OnInit {
         });
     } else if (this.pageType === 'Update') {
       console.log('Updating', form)
-      this.api.update('Item', this.id, form)
+      this.api.update('item', this.id, form)
         .subscribe(res => {
-          console.log('resres',res)
           let id = res['_id'];
           this.router.navigate(['menu/details', id]);
         }, (err) => {

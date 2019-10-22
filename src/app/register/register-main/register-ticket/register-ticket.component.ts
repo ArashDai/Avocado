@@ -13,60 +13,66 @@ import { DialogComponent } from '../../../shared/dialog/dialog.component';
 
 export class RegisterTicketComponent implements OnInit {
 
-  activeTicket = 0;
+
   ticketsData = {
-    tickets:[[]],
-    totals:[{subtotal:0, tax:0, total:0}]
+    activeTicket: 0,
+    tickets: [[]],
+    totals: [{ subtotal: 0, tax: 0, total: 0 }]
   };
-  
-  constructor( 
+
+  constructor(
     private cp: CurrencyPipe,
     private ticketService: TicketService,
     public dialog: MatDialog
   ) { }
 
   ngOnInit() {
-    this.ticketService.getTickets().subscribe(tickets => this.ticketsData = tickets)
+    this.ticketService.getTickets().subscribe(data => {
+      console.log('tickets data', data);
+      this.ticketsData = data;
+    })
   }
 
-  deleteItem(itemIndex){
-    this.ticketService.deleteItem(this.activeTicket,itemIndex)
+  deleteItem(itemIndex) {
+    this.ticketService.deleteItem(this.ticketsData.activeTicket, itemIndex)
   }
 
-  addTicket(){
+  addTicket() {
     this.ticketService.addTicket();
   }
 
-  deleteTicket(){
-    this.ticketService.deleteTicket(this.activeTicket);
+  deleteTicket() {
+    this.ticketService.deleteTicket(this.ticketsData.activeTicket);
 
-    if(!this.ticketsData.tickets[this.activeTicket]){
-      this.activeTicket--;
-      this.ticketService.changeActiveTicket(this.activeTicket);
-    } 
+    if (!this.ticketsData.tickets[this.ticketsData.activeTicket]) {
+      this.ticketsData.activeTicket--;
+      this.ticketService.changeActiveTicket(this.ticketsData.activeTicket);
+    }
   }
 
-  setActiveTicket(ticket){
-    this.activeTicket = ticket;
+  setActiveTicket(ticket) {
+    this.ticketsData.activeTicket = ticket;
     this.ticketService.changeActiveTicket(ticket)
   }
 
-  checkout(){
+  checkout() {
+    if (this.ticketsData.tickets[this.ticketsData.activeTicket].length > 0) {
+      //only open checkout dialog if there are items in the ticket
+      console.log('opening checkout dialog');
 
-    console.log('opening checkout dialog');
+      const dialogRef = this.dialog.open(DialogComponent, {
+        width: '100vw',
+        data: {
+          ticket: this.ticketsData.activeTicket,
+          dialogType: 'checkout',
+          dialog: this
+        }
+      });
 
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '100vw',
-      data: {
-        ticket: this.activeTicket,
-        dialogType:'checkout',
-        dialog:this
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The checkout dialog was closed');
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The checkout dialog was closed', result);
+      });
+    }
   }
 
 }

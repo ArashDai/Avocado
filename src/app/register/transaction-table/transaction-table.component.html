@@ -1,0 +1,41 @@
+<div class="container">
+  <table mat-table #table matSort [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+
+    <ng-container matColumnDef="dateTime">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Time </th>
+      <td mat-cell *matCellDef="let element"> {{element.dateTime}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let element"> {{ element.status }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="balanceDue">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Balance Due </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.balanceDue ? (element.balanceDue / 100 | currency) : (0 | currency) }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="customer">
+      <th mat-header-cell *matHeaderCellDef> Customer </th>
+      <td mat-cell *matCellDef="let element"> {{ element.customer ? element.customer : null }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cashier">
+      <th mat-header-cell *matHeaderCellDef> Cashier </th>
+      <td mat-cell *matCellDef="let element"> {{ element.cashier.join(', ') }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="totals">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Total </th>
+      <td mat-cell *matCellDef="let element"> {{ element.totals.total }} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['details', row._id]"></tr>
+  </table>
+</div>

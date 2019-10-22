@@ -1,26 +1,13 @@
-<div id='wrapper' >
-    <div id='ticketDisplay'>
-        <!-- register Ticket -->
-        <!-- maybe just import the ticket component into here -->
-        <h3>Ticket #: {{ticketNumber}}</h3>
-        
-        <div *ngFor="let item of checkoutTicket.ticketItems; index as i " id="ticketItemList">
-            <div id="ticketItem">
-            {{item.name}}
-            {{item.amount ? 'Amount: '+item.amount : null }} 
-            {{item.options.length > 0 ? 'Options: '+item.options : null }}
-            {{item.modifiers.length > 0 ? 'Modifiers: '+item.modifiers : null }}
-            Price: {{item.total}}
-            </div>
-        </div>
-
-    </div>
+<div id='wrapper'>
 
     <div id='checkoutFunctions'>
-        <button (click)="selectedPortal = cashPortal">Cash</button>
-        <button (click)="selectedPortal = creditPortal">Credit / Debit</button>
-        <!-- <button (click)="selectedPortal = cashPortal">Gift Card</button> -->
 
-        <ng-template [cdkPortalOutlet]="selectedPortal"></ng-template>
+        <app-payment-method *ngIf="paymentMethod === undefined" (paymentSelected)="onSelection($event)">
+        </app-payment-method>
+
+        <app-credit-checkout *ngIf="paymentMethod === 'credit'"></app-credit-checkout>
+
+        <app-cash-checkout *ngIf="paymentMethod === 'cash'" [dialogRef]="this.dialogRef"></app-cash-checkout>
+
     </div>
 </div>
